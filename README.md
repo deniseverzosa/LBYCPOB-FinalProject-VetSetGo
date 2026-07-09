@@ -4,7 +4,7 @@ PROJECT TITLE:
 TEAM MEMBERS:
 <Name 1> - <GitHub username>
 Denise Verzosa - deniseverzosa
-<Name 3> - <GitHub username>
+Catherine Xu  - XuCatherine1023
 
 PROBLEM STATEMENT & GOALS:
 <What problem does this solve? What are the main objectives?>
