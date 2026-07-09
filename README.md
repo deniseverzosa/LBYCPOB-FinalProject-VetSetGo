@@ -59,7 +59,12 @@ INITIAL CLASS IDEAS:
 - User (abstract class): This is the base class for all of the accounts in the system. It is responsible for the basic operations of
   authentication, holds the user's ID and contact details, and determines the role-specific graphical interfaces to be launched.
 
-- ClassName2: <responsibility>
+- PetOwner: Inherits from User class and is the main data container for the clients. Main purpose is to handle and collect a list of Pet objects,
+  so that one human account can be responsible for multiple animals.
+
+- Appointment: Serves as the transactional link between the clinic and the client. It is responsible for associating a specific Vet, PetOwner and 
+  Pet to an allocated date and time block, and keeping track of its progression state (e.g. Pending, Confirmed, Completed).
+
 - ClassName3: <responsibility>
 
 USER STORIES (Recommended):
