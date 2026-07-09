@@ -37,7 +37,14 @@ CORE OOP CONCEPTS:
   pet, the system will refuse to accept one that is negative, and will refuse to book an appointment outside of the clinic hours.
 
 - Inheritance: <where/how>
-- Polymorphism: <where/how>
+
+- Polymorphism:
+  The principal characteristic of polymorphism is seen in the application’s interface rendering and the behavior of different roles. 
+  The abstract class User, defines the method displayUserPortal(). The behavior of this method will be defined by the type of object 
+  created (the platform object will be either a Vet or a PetOwner) at runtime. Moreover, polymorphic method invocation can be used for 
+  medical service prices and durations. The base class MedicalService will have different implementations for different medical services, 
+  such as Vaccination and Surgery.
+
 - Abstraction: <where/how>
 
 INITIAL CLASS IDEAS:
