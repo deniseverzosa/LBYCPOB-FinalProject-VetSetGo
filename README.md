@@ -52,7 +52,9 @@ CORE OOP CONCEPTS:
 - Abstraction: <where/how>
 
 INITIAL CLASS IDEAS:
-- ClassName1: <responsibility>
+- User (abstract class): This is the base class for all of the accounts in the system. It is responsible for the basic operations of
+  authentication, holds the user's ID and contact details, and determines the role-specific graphical interfaces to be launched.
+
 - ClassName2: <responsibility>
 - ClassName3: <responsibility>
 
