@@ -26,7 +26,7 @@ submit requests for visits, and view previously recorded medical logs. The PetPu
 of sensitive data by providing persistent local storage of pet and appointment records.
 
 CORE OOP CONCEPTS:
-- Encapsulation
+- Encapsulation:
   Private access modifiers are used to ensure that the internal state of critical entities, like a pet's weight, an appointment's
   time slot or a user's password are hidden from outside interference using private access modifiers. All the public getter and
   setter methods have strict validation logic to ensure the data is kept in an integrity. For instance, when setting an age for a
