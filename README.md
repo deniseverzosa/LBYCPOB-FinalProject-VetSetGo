@@ -17,7 +17,13 @@ that would benefit from an integrated, dependable digital platform to manage the
 due appointments, and treatment plans.
 
 BRIEF DESCRIPTION:
-<Summary of purpose and basic functionality>
+The software product named PetPulse is designed as a desktop application characterized by a graphical user interface. 
+The application utilizes a two-portal architecture whereby the system analyzes the user’s login credentials to determine 
+the type of portal to open in the system. For instance, when a clinic staff logs in, an administrator's portal is opened 
+to allow its user to manage the clinic's calendar, enter clinic exam data, and revise and approve or deny user bookings. 
+When an ordinary customer logs into the system, a customer portal is opened to enable the user to manage pet profiles, 
+submit requests for visits, and view previously recorded medical logs. The PetPulse application also ensures the integrity 
+of sensitive data by providing persistent local storage of pet and appointment records.
 
 CORE OOP CONCEPTS:
 - Encapsulation: Private access modifiers are used to ensure that the internal state of critical entities, like a pet's weight, an appointment's 
