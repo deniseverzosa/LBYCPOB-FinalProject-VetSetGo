@@ -20,7 +20,10 @@ BRIEF DESCRIPTION:
 <Summary of purpose and basic functionality>
 
 CORE OOP CONCEPTS:
-- Encapsulation: <where/how>
+- Encapsulation: Private access modifiers are used to ensure that the internal state of critical entities, like a pet's weight, an appointment's 
+                 time slot or a user's password are hidden from outside interference using private access modifiers. All the public getter and 
+                 setter methods have strict validation logic to ensure the data is kept in an integrity. For instance, when setting an age for a 
+                 pet, the system will refuse to accept one that is negative, and will refuse to book an appointment outside of the clinic hours.
 - Inheritance: <where/how>
 - Polymorphism: <where/how>
 - Abstraction: <where/how>
