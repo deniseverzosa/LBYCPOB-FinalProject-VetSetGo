@@ -7,7 +7,11 @@ Denise Verzosa - deniseverzosa
 Catherine Xu  - XuCatherine1023
 
 PROBLEM STATEMENT & GOALS:
-<What problem does this solve? What are the main objectives?>
+Pet healthcare can be challenging for pet owners because they often have to keep track of everything in a physical booklet from medicine 
+to vaccinations, appointments and pet medical records. This can result in missed treatments or forgotten booster shots, or even difficulties 
+in finding crucial medical information in an emergency. The issue of overlapping appointments, slow patient check-in and manual record organisation 
+is another struggle that independent veterinary clinics face. PetPulse solutions tackle these challenges with one digital solution that simplifies 
+the workflow at the clinic and allows pet owners to manage their pet's health records and care easily.
 
 TARGET USER:
 This system was created for two target user types. The first demographic are the independent veterinary clinic workers, like receptionists 
