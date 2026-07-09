@@ -85,5 +85,8 @@ CORE FEATURES (Recommended):
 - Dual-Portal Authentication System: A secure login screen, which dynamically directs users to different graphical interfaces (Administrative 
   Clinic View vs. Personal Owner Dashboard) depending on the permissions they have for their account.
 
-- <Feature 2>
-- <Feature 3>
+- Pet Profile Dynamics and Health Management: A much-needed CRUD (Create, Read, Update, Delete) module to help pet owners and veterinarians construct, 
+  modify, and update various biological and medical records of the animals.
+
+- Local Data Processing: A file-processing engine that automatically serializes and saves medical logs, user profiles, and calendar appointments after 
+  exiting the system.
