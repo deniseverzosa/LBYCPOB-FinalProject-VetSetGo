@@ -68,6 +68,12 @@ INITIAL CLASS IDEAS:
 - Vet: Inherits from the User class and is used to represent the clinical staff. It is responsible for handling the doctor's particular schedule, 
   keeping track of free hours, and keeping a record of the doctor's upcoming patient appointments.
 
+- Pet: The central domain object in the application. It is accountable for holding fundamental physical properties, e.g., species, breed, age and 
+  weight. It also aggregates a history of MedicalRecord objects.
+
+- MedicalRecord: Responsible for recording well-defined, timestamped clinical data during the visit to the veterinarian clinic. It also stores 
+  the veterinarian's notes regarding the diagnosis of the patient, dosages of medicines given to the patient and vital signs.
+
 USER STORIES (Recommended):
 - As a <user type>, I want to <action> so that <goal>.
 - As a <user type>, I want to <action> so that <goal>.
