@@ -49,7 +49,11 @@ CORE OOP CONCEPTS:
   medical service prices and durations. The base class MedicalService will have different implementations for different medical services, 
   such as Vaccination and Surgery.
 
-- Abstraction: <where/how>
+- Abstraction:
+  In the system, abstraction is used to mask complicated backend processes from the application logic. The DataHandler interface means that 
+  the core application just knows that it has to use either the save() or load() method, with all the complicated file input/output and 
+  parsing algorithms used for the conversion to local JSON or CSV files kept hidden. In addition, the User class is abstracted to ensure that 
+  the system works only with particular Vets and Owners but not with a general, unspecified user.
 
 INITIAL CLASS IDEAS:
 - User (abstract class): This is the base class for all of the accounts in the system. It is responsible for the basic operations of
