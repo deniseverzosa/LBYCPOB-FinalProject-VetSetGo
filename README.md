@@ -1,5 +1,5 @@
 PROJECT TITLE:
-<Your project name>
+VetSetGo: An Object-Oriented Directory and Appointment Management System for Local Veterinary Clinics
 
 TEAM MEMBERS:
 Zachary Acosta - zachacosta3
@@ -36,7 +36,11 @@ CORE OOP CONCEPTS:
   setter methods have strict validation logic to ensure the data is kept in an integrity. For instance, when setting an age for a
   pet, the system will refuse to accept one that is negative, and will refuse to book an appointment outside of the clinic hours.
 
-- Inheritance: <where/how>
+- Inheritance:
+  The application uses a hierarchical class structure that starts with an abstract User base class. This class defines common attributes 
+  like account IDs, names, and login credentials. Specialized subclasses, Vet and PetOwner, inherit these main traits and add more features. 
+  The PetOwner class includes a collection of registered pets, while the Vet class includes specific fields for medical licenses and shift 
+  availability schedules.
 
 - Polymorphism:
   The principal characteristic of polymorphism is seen in the application’s interface rendering and the behavior of different roles. 
