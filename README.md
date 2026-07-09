@@ -100,6 +100,14 @@ of sensitive data by providing persistent local storage of pet and appointment r
   care is actively up to date.
 
 
+- As a veterinarian, I want to be able to access a pet's complete medical history in real time during an exam so that I can check for any allergies or 
+  other adverse reactions to drugs to formulate a new treatment plan.
+
+
+- As a veterinary receptionist, I want to see a calendar that does not show conflicts, and I want to see a daily calendar so that I can be efficient and 
+  route patients so that I don't double book a doctor's limited time slots.
+
+
 ## CORE FEATURES (Recommended):
 - **Dual-Portal Authentication System:** A secure login screen, which dynamically directs users to different graphical interfaces (Administrative 
   Clinic View vs. Personal Owner Dashboard) depending on the permissions they have for their account.
