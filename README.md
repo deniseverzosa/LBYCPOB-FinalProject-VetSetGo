@@ -79,6 +79,8 @@ USER STORIES (Recommended):
 - As a <user type>, I want to <action> so that <goal>.
 
 CORE FEATURES (Recommended):
-- <Feature 1>
+- Dual-Portal Authentication System: A secure login screen, which dynamically directs users to different graphical interfaces (Administrative 
+  Clinic View vs. Personal Owner Dashboard) depending on the permissions they have for their account.
+
 - <Feature 2>
 - <Feature 3>
