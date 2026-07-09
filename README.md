@@ -10,7 +10,11 @@ PROBLEM STATEMENT & GOALS:
 <What problem does this solve? What are the main objectives?>
 
 TARGET USER:
-<Who will use this system?>
+This system was created for two target user types. The first demographic are the independent veterinary clinic workers, like receptionists 
+who haves to deal or manage with the flow of appointments without any overlap, and vets need to see or access a patient's medical 
+history instantly when they come for a consultation. The second demographic is multi-pet owners 
+that would benefit from an integrated, dependable digital platform to manage their pet's health records, 
+due appointments, and treatment plans.
 
 BRIEF DESCRIPTION:
 <Summary of purpose and basic functionality>
