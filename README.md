@@ -75,8 +75,11 @@ INITIAL CLASS IDEAS:
   the veterinarian's notes regarding the diagnosis of the patient, dosages of medicines given to the patient and vital signs.
 
 USER STORIES (Recommended):
-- As a <user type>, I want to <action> so that <goal>.
-- As a <user type>, I want to <action> so that <goal>.
+- As a multi-pet owner, I want to register multiple different animals under my single user account, so I do not need to log in and out to view the 
+  distinct medical histories of my dogs and cats.
+
+- As a pet owner, I want to see a clear chronological list of past vaccinations and weight check-ins for my pet so I can ensure their preventative 
+  care is actively up to date.
 
 CORE FEATURES (Recommended):
 - Dual-Portal Authentication System: A secure login screen, which dynamically directs users to different graphical interfaces (Administrative 
