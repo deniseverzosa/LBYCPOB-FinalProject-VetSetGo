@@ -1,19 +1,19 @@
-# PROJECT TITLE:
+PROJECT TITLE:
 VetSetGo: An Object-Oriented Directory and Appointment Management System for Local Veterinary Clinics
 
-## TEAM MEMBERS:
+TEAM MEMBERS:
 Zachary Acosta - zachacosta3
 Denise Verzosa - deniseverzosa
 Catherine Xu  - XuCatherine1023
 
-## PROBLEM STATEMENT & GOALS:
+PROBLEM STATEMENT & GOALS:
 Pet healthcare can be challenging for pet owners because they often have to keep track of everything in a physical booklet from medicine 
 to vaccinations, appointments and pet medical records. This can result in missed treatments or forgotten booster shots, or even difficulties 
 in finding crucial medical information in an emergency. The issue of overlapping appointments, slow patient check-in and manual record organisation 
 is another struggle that independent veterinary clinics face. PetPulse solutions tackle these challenges with one digital solution that simplifies 
 the workflow at the clinic and allows pet owners to manage their pet's health records and care easily. 
 
-## TARGET USER:
+TARGET USER:
 This system was created for two target user types. The first demographic are the independent veterinary clinic workers, like receptionists 
 who haves to deal or manage with the flow of appointments without any overlap, and vets need to see or access a patient's medical 
 history instantly when they come for a consultation. The second demographic is multi-pet owners 
@@ -62,7 +62,7 @@ INITIAL CLASS IDEAS:
 - PetOwner: Inherits from User class and is the main data container for the clients. Main purpose is to handle and collect a list of Pet objects,
   so that one human account can be responsible for multiple animals.
 
-- Appointment: Serves as the transactional link between the clinic and the client. It is responsible for associating a specific Vet, PetOwner and 
+- Appointment: Serves as the transactional link between the clinic and the client. It is responsible for associating a specific Vet, PetOwner and
   Pet to an allocated date and time block, and keeping track of its progression state (e.g. Pending, Confirmed, Completed).
 
 - ClassName3: <responsibility>
