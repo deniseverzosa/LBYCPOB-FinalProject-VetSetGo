@@ -67,7 +67,7 @@ of sensitive data by providing persistent local storage of pet and appointment r
 
 
 ## INITIAL CLASS IDEAS:
-- **User (abstract class):** This is the base class for all of the accounts in the system. It is responsible for the basic operations of
+- **User (abstract class):** This is the base class for all the accounts in the system. It is responsible for the basic operations of
   authentication, holds the user's ID and contact details, and determines the role-specific graphical interfaces to be launched.
 
 
