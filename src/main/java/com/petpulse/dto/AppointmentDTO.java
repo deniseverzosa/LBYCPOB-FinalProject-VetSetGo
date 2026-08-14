@@ -7,4 +7,6 @@ public class AppointmentDTO {
     private String petName;
     private String vetName;
     private LocalDateTime timeSlot;
+
+    public AppointmentDTO() {}
 }
