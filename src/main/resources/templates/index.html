@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Welcome to PetPulse')}"></head>
+<body class="d-flex flex-column min-vh-100">
 
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<main class="container mt-5 text-center flex-grow-1">
+    <h1 class="display-4 text-primary">Welcome to PetPulse</h1>
+    <p class="lead mt-3">The comprehensive veterinary clinic and pet management solution.</p>
+    <a th:href="@{/login}" class="btn btn-primary btn-lg mt-4">Access Portal</a>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
