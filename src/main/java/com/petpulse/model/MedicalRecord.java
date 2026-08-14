@@ -12,4 +12,8 @@ public class MedicalRecord {
         this.diagnosis = diagnosis;
         this.medications = medications;
     }
+
+    public LocalDate getDate() { return date; }
+    public String getDiagnosis() { return diagnosis; }
+    public String getMedications() { return medications; }
 }
