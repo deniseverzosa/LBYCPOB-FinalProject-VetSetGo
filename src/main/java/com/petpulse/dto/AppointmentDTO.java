@@ -25,4 +25,7 @@ public class AppointmentDTO {
 
     public String getVetName() { return vetName; }
     public void setVetName(String vetName) { this.vetName = vetName; }
+
+    public LocalDateTime getTimeSlot() { return timeSlot; }
+    public void setTimeSlot(LocalDateTime timeSlot) { this.timeSlot = timeSlot; }
 }
