@@ -1,4 +1,4 @@
-package com.petpulse.service;
+package com.vetsetgo.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;

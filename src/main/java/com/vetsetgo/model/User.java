@@ -1,4 +1,4 @@
-package com.petpulse.model;
+package com.vetsetgo.model;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

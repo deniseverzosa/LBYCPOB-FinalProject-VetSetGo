@@ -1,4 +1,4 @@
-package com.petpulse.dto;
+package com.vetsetgo.dto;
 
 import java.time.LocalDateTime;
 

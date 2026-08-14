@@ -1,7 +1,7 @@
-package com.petpulse.controller;
+package com.vetsetgo.controller;
 
-import com.petpulse.dto.PetDTO;
-import com.petpulse.model.Pet;
+import com.vetsetgo.dto.PetDTO;
+import com.vetsetgo.model.Pet;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,7 +1,7 @@
-package com.petpulse.controller;
+package com.vetsetgo.controller;
 
-import com.petpulse.dto.AppointmentDTO;
-import com.petpulse.utils.DateTimeUtil;
+import com.vetsetgo.dto.AppointmentDTO;
+import com.vetsetgo.utils.DateTimeUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

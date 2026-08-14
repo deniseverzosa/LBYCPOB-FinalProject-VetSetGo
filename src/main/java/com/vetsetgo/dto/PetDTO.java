@@ -1,4 +1,4 @@
-package com.petpulse.dto;
+package com.vetsetgo.dto;
 
 public class PetDTO {
     private String name;

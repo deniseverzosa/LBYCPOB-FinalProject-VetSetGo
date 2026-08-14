@@ -1,4 +1,4 @@
-package com.petpulse.model;
+package com.vetsetgo.model;
 
 import java.util.ArrayList;
 import java.util.List;
