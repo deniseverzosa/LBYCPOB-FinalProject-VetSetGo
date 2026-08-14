@@ -26,7 +26,7 @@ due appointments, and treatment plans.
 
 ## BRIEF DESCRIPTION:
 <div align="justify">
-The software product named PetPulse is designed as a desktop application characterized by a graphical user interface. 
+The software product named VetSetGo is designed as a website application characterized by a graphical user interface. 
 The application utilizes a two-portal architecture whereby the system analyzes the user’s login credentials to determine 
 the type of portal to open in the system. For instance, when a clinic staff logs in, an administrator's portal is opened 
 to allow its user to manage the clinic's calendar, enter clinic exam data, and revise and approve or deny user bookings. 
