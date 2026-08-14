@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Vet Dashboard')}"></head>
+<body class="d-flex flex-column min-vh-100">
 
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<main class="container mt-5 flex-grow-1">
+    <h2 th:text="'Welcome Dr. ' + ${user.name}">Welcome, Dr. Vet</h2>
+    <p class="text-muted" th:text="'License: ' + ${user.medicalLicense}"></p>
+    <hr>
+
+    <h4 class="mt-4">Upcoming Appointments</h4>
+    <table class="table table-striped table-hover mt-3 border">
+        <thead class="table-primary">
+        <tr>
+            <th>Time Slot</th>
+            <th>Patient (Pet)</th>
+            <th>Owner</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="appt : ${appointments}">
+            <td th:text="${#temporals.format(appt.timeSlot, 'yyyy-MM-dd HH:mm')}">Date/Time</td>
+            <td th:text="${appt.pet.name}">Pet Name</td>
+            <td th:text="${appt.owner.name}">Owner Name</td>
+            <td>
+                <a th:href="@{/vet/medical-history(petId=${appt.pet.name})}" class="btn btn-sm btn-info">View Records</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
