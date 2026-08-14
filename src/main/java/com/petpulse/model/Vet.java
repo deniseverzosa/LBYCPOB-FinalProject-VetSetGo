@@ -17,6 +17,12 @@ public class Vet extends User {
     public String getMedicalLicense() {
         return medicalLicense;
     }
+
+    @Override
+    public String displayUserPortal() {
+        return "Rendering Administrative Portal... Welcome Dr. " + getName() + " (License: " + medicalLicense + ")";
+    }
+
     public void setMedicalLicense(String medicalLicense) {
         this.medicalLicense = medicalLicense;
     }
