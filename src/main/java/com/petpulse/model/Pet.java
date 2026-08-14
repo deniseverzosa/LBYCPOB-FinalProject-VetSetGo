@@ -30,4 +30,9 @@ public class Pet {
         }
         this.weight = weight;
     }
+
+    public String getName() { return name; }
+    public String getSpecies() { return species; }
+    public int getAge() { return age; }
+    public double getWeight() { return weight; }
 }
