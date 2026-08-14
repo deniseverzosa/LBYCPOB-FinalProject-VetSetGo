@@ -22,3 +22,18 @@ public class JsonDataHandler<T> implements DataHandler<T> {
             System.err.println("File I/O Error saving data: " + e.getMessage());
         }
     }
+
+    @Override
+    public List<T> load(String filename, Class<T[]> clazz) {
+        try {
+            File file = new File(filename);
+            if (file.exists()) {
+                T[] array = mapper.readValue(file, clazz);
+                return Arrays.asList(array);
+            }
+        } catch (IOException e) {
+            System.err.println("File I/O Error loading data: " + e.getMessage());
+        }
+        return List.of();
+    }
+}
