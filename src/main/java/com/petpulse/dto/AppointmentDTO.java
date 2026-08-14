@@ -16,4 +16,7 @@ public class AppointmentDTO {
         this.vetName = vetName;
         this.timeSlot = timeSlot;
     }
+
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 }
