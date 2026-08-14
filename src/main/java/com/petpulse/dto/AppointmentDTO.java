@@ -22,4 +22,7 @@ public class AppointmentDTO {
 
     public String getPetName() { return petName; }
     public void setPetName(String petName) { this.petName = petName; }
+
+    public String getVetName() { return vetName; }
+    public void setVetName(String vetName) { this.vetName = vetName; }
 }
