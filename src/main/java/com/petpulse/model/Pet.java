@@ -23,4 +23,11 @@ public class Pet {
         }
         this.age = age;
     }
+
+    public void setWeight(double weight) {
+        if (weight <= 0) {
+            throw new IllegalArgumentException("Invalid state: Weight must be greater than 0.");
+        }
+        this.weight = weight;
+    }
 }
