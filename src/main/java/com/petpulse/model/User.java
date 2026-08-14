@@ -26,4 +26,6 @@ public abstract class User {
         this.name = name;
         this.password = password;
     }
+    // Polymorphic method to render portal interface dynamically
+    public abstract String displayUserPortal();
 }
