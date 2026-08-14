@@ -1,0 +1,15 @@
+/* ==========================================
+   VetSetGo Custom Styles
+   ========================================== */
+
+/* General body styling */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navigation bar enhancements */
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 1px;
+}
