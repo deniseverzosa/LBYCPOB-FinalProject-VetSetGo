@@ -35,4 +35,9 @@ public class Pet {
     public String getSpecies() { return species; }
     public int getAge() { return age; }
     public double getWeight() { return weight; }
+
+    public void addMedicalRecord(MedicalRecord record) {
+        this.medicalHistory.add(record);
+    }
+    public List<MedicalRecord> getMedicalHistory() { return medicalHistory; }
 }
