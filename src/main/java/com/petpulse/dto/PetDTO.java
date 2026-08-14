@@ -5,4 +5,13 @@ public class PetDTO {
     private String species;
     private int age;
     private double weight;
+
+    public PetDTO() {}
+
+    public PetDTO(String name, String species, int age, double weight) {
+        this.name = name;
+        this.species = species;
+        this.age = age;
+        this.weight = weight;
+    }
 }
