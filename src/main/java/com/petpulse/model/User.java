@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 // Abstraction & Polymorphism: Serves as the base for all authenticated entities
 @Entity
+@Table(name = "app_user")
 @Inheritance(strategy = InheritanceType.JOINED)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
@@ -26,8 +27,10 @@ public abstract class User {
         this.name = name;
         this.password = password;
     }
+
     // Polymorphic method to render portal interface dynamically
     public abstract String displayUserPortal();
+
     // Encapsulation
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
