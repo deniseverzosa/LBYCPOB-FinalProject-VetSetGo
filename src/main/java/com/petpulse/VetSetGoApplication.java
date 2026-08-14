@@ -22,3 +22,39 @@ public class VetSetGoApplication {
             System.out.println("==================================================");
             System.out.println("          PETPULSE SYSTEM INITIALIZING            ");
             System.out.println("==================================================");
+
+            // 1. Instantiating Subclasses (Inheritance)
+            PetOwner owner = new PetOwner("O101", "Alice Johnson", "pass123");
+            Vet vet = new Vet("V202", "Dr. Bob Miller", "vetpass", "VET-LICENSE-99");
+
+            // 2. Polymorphism Demonstration
+            User loggedInUser = vet;
+            System.out.println("[AUTH] " + loggedInUser.displayUserPortal());
+
+            loggedInUser = owner;
+            System.out.println("[AUTH] " + loggedInUser.displayUserPortal());
+
+            // 3. Testing Encapsulation & Rules
+            Pet pet = new Pet("Luna", "Feline");
+            try {
+                pet.setAge(-1); // Triggers Encapsulation Validation
+            } catch (IllegalArgumentException e) {
+                System.out.println("[SECURITY] Invalid Input Caught: " + e.getMessage());
+                pet.setAge(2);
+                pet.setWeight(4.5);
+            }
+            owner.addPet(pet);
+
+            // 4. Utilizing Utils
+            LocalDateTime appointmentTime = LocalDateTime.of(2026, 8, 15, 11, 0);
+            if (DateTimeUtil.isWithinClinicHours(appointmentTime)) {
+                Appointment appointment = new Appointment("A-1", vet, owner, pet, appointmentTime);
+                System.out.println("[SCHEDULER] " + appointment.getStatus() + " appointment for " + pet.getName());
+            }
+
+            System.out.println("==================================================");
+            System.out.println("     PETPULSE BACKEND READY FOR HTTP REQUESTS     ");
+            System.out.println("==================================================");
+        };
+    }
+}
