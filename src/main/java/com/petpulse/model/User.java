@@ -13,4 +13,17 @@ import jakarta.persistence.*;
         @JsonSubTypes.Type(value = Vet.class, name = "vet")
 })
 public abstract class User {
+    @Id
+    private String id;
+    private String name;
+    private String password;
+
+    // Default constructor required by Spring Data JPA
+    public User() {}
+
+    public User(String id, String name, String password) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+    }
 }
