@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Medical History')}"></head>
+<body class="d-flex flex-column min-vh-100">
 
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<main class="container mt-5 flex-grow-1">
+    <h2 th:text="'Medical Records: ' + ${pet.name}">Medical Records</h2>
+    <a th:href="@{/vet/dashboard}" class="btn btn-sm btn-secondary mb-3">&larr; Back to Schedule</a>
+
+    <div class="list-group mt-3">
+        <!-- Iterate over pet.medicalHistory -->
+        <div th:each="record : ${pet.medicalHistory}" class="list-group-item flex-column align-items-start mb-2 border rounded">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1 text-primary" th:text="${record.diagnosis}">Diagnosis Name</h5>
+                <small class="text-muted" th:text="${record.date}">Record Date</small>
+            </div>
+            <p class="mb-1 mt-2"><strong>Medications:</strong> <span th:text="${record.medications}"></span></p>
+        </div>
+
+        <!-- Fallback if no records exist -->
+        <div th:if="${#lists.isEmpty(pet.medicalHistory)}" class="alert alert-info">
+            No medical records found for this pet.
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
