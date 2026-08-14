@@ -7,4 +7,9 @@ public class MedicalRecord {
     private String diagnosis;
     private String medications;
 
+    public MedicalRecord(String diagnosis, String medications) {
+        this.date = LocalDate.now();
+        this.diagnosis = diagnosis;
+        this.medications = medications;
+    }
 }
