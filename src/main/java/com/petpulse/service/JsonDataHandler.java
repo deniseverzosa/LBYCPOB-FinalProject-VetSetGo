@@ -13,3 +13,12 @@ public class JsonDataHandler<T> implements DataHandler<T> {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
+    @Override
+    public void save(List<T> data, String filename) {
+        try {
+            mapper.writeValue(new File(filename), data);
+            System.out.println("Data saved to local JSON storage: " + filename);
+        } catch (IOException e) {
+            System.err.println("File I/O Error saving data: " + e.getMessage());
+        }
+    }
