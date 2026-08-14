@@ -21,6 +21,11 @@ public class PetOwner extends User {
         this.pets = new ArrayList<>();
     }
 
+    @Override
+    public String displayUserPortal() {
+        return "Rendering Personal Dashboard... Welcome, " + getName();
+    }
+
     public List<Pet> getPets() {
         return pets;
     }
