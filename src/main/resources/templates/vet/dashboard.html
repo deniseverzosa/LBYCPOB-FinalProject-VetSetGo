@@ -17,6 +17,8 @@
             <th>Time Slot</th>
             <th>Patient (Pet)</th>
             <th>Owner</th>
+            <!-- FIX: Added Status Column header -->
+            <th>Status</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -25,6 +27,8 @@
             <td th:text="${#temporals.format(appt.timeSlot, 'yyyy-MM-dd HH:mm')}">Date/Time</td>
             <td th:text="${appt.pet.name}">Pet Name</td>
             <td th:text="${appt.owner.name}">Owner Name</td>
+            <!-- FIX: Displaying the Enum status -->
+            <td><span class="badge bg-secondary" th:text="${appt.status}">STATUS</span></td>
             <td>
                 <a th:href="@{/vet/medical-history(petId=${appt.pet.name})}" class="btn btn-sm btn-info">View Records</a>
             </td>
