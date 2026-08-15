@@ -53,6 +53,16 @@ public class WebUIController {
         return "login"; // Renders login.html
     }
 
+    @PostMapping("/login")
+    public String processLogin(@RequestParam String username, @RequestParam String password) {
+        if ("V202".equals(username) && "vetpass".equals(password)) {
+            return "redirect:/vet/dashboard";
+        } else if ("O101".equals(username) && "pass123".equals(password)) {
+            return "redirect:/owner/dashboard";
+        }
+        return "redirect:/login?error";
+    }
+
     @GetMapping("/vet/dashboard")
     public String showVetDashboard() {
         return "dashboard"; // Renders your vet dashboard HTML
