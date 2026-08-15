@@ -1,15 +1,25 @@
 package com.vetsetgo.model;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity // Marks this class as a database table
 public class MedicalRecord {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String diagnosisNotes;
     private String medicineDosages;
     private String vitalSigns;
+
+    @Transient
     private List<MedicalService> servicesRendered;
 
-    // FIX: Added the missing Pet reference to link back to the owner pet
+    @ManyToOne
+    @JoinColumn(name = "pet_id")
     private Pet pet;
 
     public MedicalRecord() {
@@ -38,6 +48,9 @@ public class MedicalRecord {
     }
 
     // Getters & Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
     public List<MedicalService> getServicesRendered() { return servicesRendered; }
     public void setServicesRendered(List<MedicalService> servicesRendered) { this.servicesRendered = servicesRendered; }
 
