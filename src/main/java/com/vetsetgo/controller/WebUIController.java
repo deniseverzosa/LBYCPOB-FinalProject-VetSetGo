@@ -135,40 +135,42 @@ public class WebUIController {
     }
 
     @GetMapping("/owner/pet-profile")
-    public String showPetProfile(@RequestParam("name") String name, Model model) {
-        Pet targetPet = findPetByName(name);
+    public String showPetProfile(@RequestParam("name") String name, HttpSession session, Model model) {
+        String userId = (String) session.getAttribute("loggedInUserId");
+        Optional<PetOwner> ownerOpt = petOwnerRepository.findById(userId);
+        if (ownerOpt.isEmpty()) return "redirect:/login";
+
+        PetOwner owner = ownerOpt.get();
+        model.addAttribute("user", owner);
+
+        Pet targetPet = owner.getPets().stream().filter(p -> p.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
         model.addAttribute("pet", targetPet);
-        model.addAttribute("user", dummyOwner);
-
-        if (targetPet != null && targetPet.getMedicalRecords() != null) {
-            model.addAttribute("records", targetPet.getMedicalRecords());
-        } else {
-            model.addAttribute("records", new ArrayList<MedicalRecord>());
-        }
-
-        List<Appointment> petAppointments = dummyAppointments.stream()
-                .filter(a -> a.getPet().getName().equalsIgnoreCase(name))
-                .collect(Collectors.toList());
-        model.addAttribute("appointments", petAppointments);
+        model.addAttribute("records", targetPet != null ? targetPet.getMedicalRecords() : new ArrayList<>());
+        model.addAttribute("appointments", new ArrayList<>());
 
         return "owner/pet-profile";
     }
 
     @PostMapping("/owner/book-appointment")
     public String bookAppointment(@RequestParam("petName") String petName,
-                                  @RequestParam("timeSlot") String timeSlotStr) {
-        Pet targetPet = findPetByName(petName);
-        if (targetPet != null) {
-            LocalDateTime dateTime = LocalDateTime.parse(timeSlotStr);
-            int hour = dateTime.getHour();
+                                  @RequestParam("timeSlot") String timeSlotStr,
+                                  HttpSession session) {
+        String userId = (String) session.getAttribute("loggedInUserId");
+        Optional<PetOwner> ownerOpt = petOwnerRepository.findById(userId);
 
-            if (hour < 9 || hour >= 17) {
-                return "redirect:/owner/dashboard?error=invalidTime";
+        if (ownerOpt.isPresent()) {
+            PetOwner owner = ownerOpt.get();
+            Pet targetPet = owner.getPets().stream().filter(p -> p.getName().equalsIgnoreCase(petName)).findFirst().orElse(null);
+
+            if (targetPet != null) {
+                LocalDateTime dateTime = LocalDateTime.parse(timeSlotStr);
+                Vet vet = vetRepository.findAll().stream().findFirst().orElse(null);
+                if (vet != null) {
+                    String newApptId = "A-" + UUID.randomUUID().toString().substring(0, 4).toUpperCase();
+                    Appointment newAppt = new Appointment(newApptId, vet, owner, targetPet, dateTime);
+                    appointmentRepository.save(newAppt);
+                }
             }
-
-            String newApptId = "A-" + UUID.randomUUID().toString().substring(0, 4).toUpperCase();
-            Appointment newAppt = new Appointment(newApptId, dummyVet, dummyOwner, targetPet, dateTime);
-            dummyAppointments.add(newAppt);
         }
         return "redirect:/owner/dashboard";
     }
