@@ -1,6 +1,10 @@
 package com.vetsetgo.controller;
 
 import com.vetsetgo.model.*;
+import com.vetsetgo.repository.*;
+import jakarta.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +19,15 @@ import java.util.stream.Collectors;
 
 @Controller
 public class WebUIController {
+
+    @Autowired
+    private PetOwnerRepository petOwnerRepository;
+    @Autowired
+    private VetRepository vetRepository;
+    @Autowired
+    private PetRepository petRepository;
+    @Autowired
+    private AppointmentRepository appointmentRepository;
 
     private final Vet dummyVet;
     private final PetOwner dummyOwner;
@@ -53,6 +66,12 @@ public class WebUIController {
     @GetMapping("/signup")
     public String showSignUpPage() {
         return "signup";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
     }
 
     @PostMapping("/login")
