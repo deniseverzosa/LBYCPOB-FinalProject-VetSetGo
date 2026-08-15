@@ -131,6 +131,20 @@ public class WebUIController {
         return "redirect:/vet/dashboard";
     }
 
+    // 3. Vet Action: Add a new Medical Record
+    @PostMapping("/vet/add-medical-record")
+    public String addMedicalRecord(@RequestParam("petName") String petName,
+                                   @RequestParam("diagnosisNotes") String diagnosisNotes,
+                                   @RequestParam("medicineDosages") String medicineDosages,
+                                   @RequestParam("vitalSigns") String vitalSigns) {
+        Pet targetPet = findPetByName(petName);
+        if (targetPet != null) {
+            MedicalRecord newRecord = new MedicalRecord(diagnosisNotes, medicineDosages, vitalSigns);
+            targetPet.addMedicalRecord(newRecord); // Utilizing Encapsulation / Composition
+        }
+        return "redirect:/vet/medical-history?petId=" + petName;
+    }
+
     // Helper Method
     private Pet findPetByName(String name) {
         for (Pet p : dummyOwner.getPets()) {
