@@ -30,5 +30,10 @@ public class PetOwner extends User {
     }
     public void addPet(Pet pet) {
         this.pets.add(pet);
+        pet.setOwner(this);
+    }
+
+    public List<MedicalRecord> getMedicalRecords() {
+        return this.medicalRecords;
     }
 }
