@@ -6,15 +6,21 @@ import java.util.List;
 
 @Entity
 public class Pet {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String species;
     private String breed;
     private int age;
     private double weight;
+
+    @ManyToOne
+    private PetOwner owner;
+
+    // Field name aligned with standard naming
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
     private List<MedicalRecord> medicalRecords;
 
     public Pet() {}
@@ -31,11 +37,13 @@ public class Pet {
         if (age < 0) throw new IllegalArgumentException("Age cannot be negative.");
         this.age = age;
     }
+
     public void setWeight(double weight) {
         if (weight <= 0) throw new IllegalArgumentException("Weight must be greater than 0.");
         this.weight = weight;
     }
 
+    // Getters and Setters
     public Long getId() { return id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -45,7 +53,8 @@ public class Pet {
     public void setBreed(String breed) { this.breed = breed; }
     public int getAge() { return age; }
     public double getWeight() { return weight; }
-
+    public PetOwner getOwner() { return owner; }
+    public void setOwner(PetOwner owner) { this.owner = owner; }
     public List<MedicalRecord> getMedicalRecords() { return this.medicalRecords; }
     public void setMedicalRecords(List<MedicalRecord> medicalRecords) { this.medicalRecords = medicalRecords; }
 
@@ -54,5 +63,6 @@ public class Pet {
             this.medicalRecords = new ArrayList<>();
         }
         this.medicalRecords.add(record);
+        record.setPet(this);
     }
 }
