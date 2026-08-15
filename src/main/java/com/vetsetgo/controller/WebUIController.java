@@ -45,16 +45,16 @@ public class WebUIController {
 
     @GetMapping("/")
     public String showIndex() {
-        return "index"; // Renders index.html
+        return "index";
     }
 
     @GetMapping("/login")
     public String showLogin() {
-        return "login"; // Renders login.html
+        return "login";
     }
 
     @PostMapping("/login")
-    public String processLogin(@RequestParam String username, @RequestParam String password) {
+    public String processLogin(@RequestParam("username") String username, @RequestParam("password") String password) {
         if ("V202".equals(username) && "vetpass".equals(password)) {
             return "redirect:/vet/dashboard";
         } else if ("O101".equals(username) && "pass123".equals(password)) {
@@ -64,26 +64,26 @@ public class WebUIController {
     }
 
     @GetMapping("/vet/dashboard")
-    public String showVetDashboard() {
-        return "dashboard"; // Renders your vet dashboard HTML
+    public String showVetDashboard(Model model) {
+        model.addAttribute("user", dummyVet);
+        model.addAttribute("appointments", dummyAppointments);
+        return "vet/dashboard";
     }
 
     @GetMapping("/owner/dashboard")
     public String showOwnerDashboard(Model model) {
         model.addAttribute("user", dummyOwner);
-        // Safely pass pets list explicitly just in case the template needs it directly
         model.addAttribute("pets", dummyOwner.getPets());
         return "owner/dashboard";
     }
 
     @GetMapping("/vet/medical-history")
-    public String showMedicalHistory(@RequestParam String petId, Model model) {
+    public String showMedicalHistory(@RequestParam("petId") String petId, Model model) {
         Pet targetPet = findPetByName(petId);
 
         model.addAttribute("pet", targetPet);
         model.addAttribute("user", dummyVet);
 
-        // Blanket-proofing: passing records explicitly
         if (targetPet != null && targetPet.getMedicalRecords() != null) {
             model.addAttribute("records", targetPet.getMedicalRecords());
         } else {
@@ -93,14 +93,14 @@ public class WebUIController {
         return "vet/medical-history";
     }
 
+    // FIX: Added explicit ("name") name
     @GetMapping("/owner/pet-profile")
-    public String showPetProfile(@RequestParam String name, Model model) {
+    public String showPetProfile(@RequestParam("name") String name, Model model) {
         Pet targetPet = findPetByName(name);
 
         model.addAttribute("pet", targetPet);
         model.addAttribute("user", dummyOwner);
 
-        // Blanket-proofing: passing records and appointments explicitly so the template never finds a null list
         if (targetPet != null && targetPet.getMedicalRecords() != null) {
             model.addAttribute("records", targetPet.getMedicalRecords());
         } else {
@@ -112,7 +112,6 @@ public class WebUIController {
         return "owner/pet-profile";
     }
 
-    // Helper method to keep code clean
     private Pet findPetByName(String name) {
         for (Pet p : dummyOwner.getPets()) {
             if (p.getName().equalsIgnoreCase(name)) {
