@@ -34,17 +34,51 @@ public class Appointment {
         this.status = AppointmentStatus.PENDING; // Defaults to pending
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getId() {
+        return id;
+    }
 
-    public Vet getVet() { return vet; }
-    public void setVet(Vet vet) { this.vet = vet; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public PetOwner getOwner() { return owner; }
-    public void setOwner(PetOwner owner) { this.owner = owner; }
+    public Vet getVet() {
+        return vet;
+    }
 
-    public Pet getPet() { return pet; }
-    public void setPet(Pet pet) { this.pet = pet; }
+    public void setVet(Vet vet) {
+        this.vet = vet;
+    }
 
-    public LocalDateTime getTimeSlot() { return timeSlot; }
-    public void setTimeSlot(LocalDateTime timeSlot) { this.timeSlot = timeSlot; }
+    public PetOwner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(PetOwner owner) {
+        this.owner = owner;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
+
+    public LocalDateTime getTimeSlot() {
+        return timeSlot;
+    }
+
+    public void setTimeSlot(LocalDateTime timeSlot) {
+        this.timeSlot = timeSlot;
+    }
+
+    public AppointmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
+    }
+}
