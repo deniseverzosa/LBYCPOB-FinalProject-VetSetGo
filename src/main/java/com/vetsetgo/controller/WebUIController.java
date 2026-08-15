@@ -3,7 +3,6 @@ package com.vetsetgo.controller;
 import com.vetsetgo.model.*;
 import com.vetsetgo.repository.*;
 import jakarta.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -75,12 +75,21 @@ public class WebUIController {
     }
 
     @PostMapping("/login")
-    public String processLogin(@RequestParam("username") String username, @RequestParam("password") String password) {
-        if ("V202".equals(username) && "vetpass".equals(password)) {
+    public String processLogin(@RequestParam("username") String username,
+                               @RequestParam("password") String password,
+                               HttpSession session) {
+        Optional<Vet> vetOpt = vetRepository.findById(username);
+        if (vetOpt.isPresent() && vetOpt.get().getPassword().equals(password)) {
+            session.setAttribute("loggedInUserId", username);
             return "redirect:/vet/dashboard";
-        } else if ("O101".equals(username) && "pass123".equals(password)) {
+        }
+
+        Optional<PetOwner> ownerOpt = petOwnerRepository.findById(username);
+        if (ownerOpt.isPresent() && ownerOpt.get().getPassword().equals(password)) {
+            session.setAttribute("loggedInUserId", username);
             return "redirect:/owner/dashboard";
         }
+
         return "redirect:/login?error";
     }
 
