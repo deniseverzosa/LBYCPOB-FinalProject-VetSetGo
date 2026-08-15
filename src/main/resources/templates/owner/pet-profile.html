@@ -6,13 +6,16 @@
 <div th:replace="~{fragments/header :: navbar}"></div>
 
 <main class="container mt-5 flex-grow-1">
-    <h2 th:text="${pet.name} + '''s Profile'">Pet Profile</h2>
+    <!-- FIX: Replaced the broken single-quote concatenation with Literal Substitution -->
+    <h2 th:text="|${pet.name}'s Profile|">Pet Profile</h2>
+
     <a th:href="@{/owner/dashboard}" class="btn btn-sm btn-secondary mb-3">&larr; Back to Dashboard</a>
 
     <div class="card mt-2">
         <div class="card-header bg-primary text-white">Pet Details</div>
         <div class="card-body">
             <p><strong>Species:</strong> <span th:text="${pet.species}"></span></p>
+            <p><strong>Breed:</strong> <span th:text="${pet.breed}"></span></p>
             <p><strong>Age:</strong> <span th:text="${pet.age}"></span> years</p>
             <p><strong>Weight:</strong> <span th:text="${pet.weight}"></span> kg</p>
         </div>
