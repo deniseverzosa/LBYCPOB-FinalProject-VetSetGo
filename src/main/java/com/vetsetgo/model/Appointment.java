@@ -36,3 +36,6 @@ public class Appointment {
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
+
+    public Vet getVet() { return vet; }
+    public void setVet(Vet vet) { this.vet = vet; }
