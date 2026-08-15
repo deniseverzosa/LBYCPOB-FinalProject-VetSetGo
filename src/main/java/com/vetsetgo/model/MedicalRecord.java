@@ -2,12 +2,19 @@ package com.vetsetgo.model;
 
 // Imported LocalDateTime
 import java.time.LocalDateTime;
+import jakarta.persistence.*;
 
+@Entity
 public class MedicalRecord {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private LocalDateTime timestamp;
     private String diagnosisNotes;
     private String medicineDosages;
     private String vitalSigns;
+
+    public MedicalRecord() {}
 
     //Constructor now accepts the new fields and sets current time
     public MedicalRecord(String diagnosisNotes, String medicineDosages, String vitalSigns) {
@@ -18,6 +25,8 @@ public class MedicalRecord {
     }
 
     // Updated Getters and Setters for all fields
+    public Long getId() { return id; }
+
     public LocalDateTime getTimestamp() { return timestamp; }
     public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
 
