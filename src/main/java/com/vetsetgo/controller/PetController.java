@@ -12,8 +12,7 @@ public class PetController {
     @PostMapping("/register")
     public ResponseEntity<?> registerPet(@RequestBody PetDTO petDTO) {
         try {
-            // Mapping DTO to Domain Entity
-            Pet pet = new Pet(petDTO.getName(), petDTO.getSpecies());
+            Pet pet = new Pet(petDTO.getName(), petDTO.getSpecies(), "Not Specified");
             pet.setAge(petDTO.getAge());
             pet.setWeight(petDTO.getWeight());
 
