@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 public class WebUIController {
@@ -32,7 +33,7 @@ public class WebUIController {
 
         dummyOwner.addPet(pet);
 
-        Appointment appt = new Appointment("A-1", dummyVet, dummyOwner, pet, LocalDateTime.now().plusDays(2));
+        Appointment appt = new Appointment("A-1", dummyVet, dummyOwner, pet, LocalDateTime.now().plusDays(2).withHour(10).withMinute(0));
         dummyAppointments = new ArrayList<>();
         dummyAppointments.add(appt);
 
@@ -98,40 +99,46 @@ public class WebUIController {
         } else {
             model.addAttribute("records", new ArrayList<MedicalRecord>());
         }
-        model.addAttribute("appointments", dummyAppointments);
+
+        List<Appointment> petAppointments = dummyAppointments.stream()
+                .filter(a -> a.getPet().getName().equalsIgnoreCase(name))
+                .collect(Collectors.toList());
+        model.addAttribute("appointments", petAppointments);
+
         return "owner/pet-profile";
     }
 
-    // 1. Owner Action: Book a new appointment
     @PostMapping("/owner/book-appointment")
     public String bookAppointment(@RequestParam("petName") String petName,
                                   @RequestParam("timeSlot") String timeSlotStr) {
         Pet targetPet = findPetByName(petName);
         if (targetPet != null) {
             LocalDateTime dateTime = LocalDateTime.parse(timeSlotStr);
-            String newApptId = "A-" + UUID.randomUUID().toString().substring(0, 4).toUpperCase();
+            int hour = dateTime.getHour();
 
+            if (hour < 9 || hour >= 17) {
+                return "redirect:/owner/dashboard?error=invalidTime";
+            }
+
+            String newApptId = "A-" + UUID.randomUUID().toString().substring(0, 4).toUpperCase();
             Appointment newAppt = new Appointment(newApptId, dummyVet, dummyOwner, targetPet, dateTime);
             dummyAppointments.add(newAppt);
         }
         return "redirect:/owner/dashboard";
     }
 
-
-    // 2. Vet Action: Update Appointment Status
     @PostMapping("/vet/update-appointment")
     public String updateAppointmentStatus(@RequestParam("appointmentId") String appointmentId,
                                           @RequestParam("status") AppointmentStatus status) {
         for (Appointment appt : dummyAppointments) {
             if (appt.getId().equals(appointmentId)) {
-                appt.setStatus(status); // Utilizing Encapsulation (Setter)
+                appt.setStatus(status);
                 break;
             }
         }
         return "redirect:/vet/dashboard";
     }
 
-    // 3. Vet Action: Add a new Medical Record
     @PostMapping("/vet/add-medical-record")
     public String addMedicalRecord(@RequestParam("petName") String petName,
                                    @RequestParam("diagnosisNotes") String diagnosisNotes,
@@ -140,12 +147,11 @@ public class WebUIController {
         Pet targetPet = findPetByName(petName);
         if (targetPet != null) {
             MedicalRecord newRecord = new MedicalRecord(diagnosisNotes, medicineDosages, vitalSigns);
-            targetPet.addMedicalRecord(newRecord); // Utilizing Encapsulation / Composition
+            targetPet.addMedicalRecord(newRecord);
         }
         return "redirect:/vet/medical-history?petId=" + petName;
     }
 
-    // Helper Method
     private Pet findPetByName(String name) {
         for (Pet p : dummyOwner.getPets()) {
             if (p.getName().equalsIgnoreCase(name)) {
