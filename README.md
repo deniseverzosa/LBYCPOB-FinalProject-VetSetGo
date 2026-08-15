@@ -31,7 +31,7 @@ The application utilizes a two-portal architecture whereby the system analyzes t
 the type of portal to open in the system. For instance, when a clinic staff logs in, an administrator's portal is opened 
 to allow its user to manage the clinic's calendar, enter clinic exam data, and revise and approve or deny user bookings. 
 When an ordinary customer logs into the system, a customer portal is opened to enable the user to manage pet profiles, 
-submit requests for visits, and view previously recorded medical logs. The PetPulse application also ensures the integrity 
+submit requests for visits, and view previously recorded medical logs. The VetSetGo website application also ensures the integrity 
 of sensitive data by providing persistent local storage of pet and appointment records.
 </div>
 
