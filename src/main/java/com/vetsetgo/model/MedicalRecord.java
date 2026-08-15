@@ -6,15 +6,18 @@ import java.util.List;
 public class MedicalRecord {
     private String diagnosisNotes;
     private String medicineDosages;
-    private List<MedicalService> servicesRendered; // Holds any subclass of MedicalService
+    private String vitalSigns; // Added property
+    private List<MedicalService> servicesRendered;
 
     public MedicalRecord() {
         this.servicesRendered = new ArrayList<>();
     }
 
-    public MedicalRecord(String diagnosisNotes, String medicineDosages) {
+    // Updated constructor to accept all three arguments
+    public MedicalRecord(String diagnosisNotes, String medicineDosages, String vitalSigns) {
         this.diagnosisNotes = diagnosisNotes;
         this.medicineDosages = medicineDosages;
+        this.vitalSigns = vitalSigns;
         this.servicesRendered = new ArrayList<>();
     }
 
@@ -41,4 +44,7 @@ public class MedicalRecord {
 
     public String getMedicineDosages() { return medicineDosages; }
     public void setMedicineDosages(String medicineDosages) { this.medicineDosages = medicineDosages; }
+
+    public String getVitalSigns() { return vitalSigns; }
+    public void setVitalSigns(String vitalSigns) { this.vitalSigns = vitalSigns; }
 }
