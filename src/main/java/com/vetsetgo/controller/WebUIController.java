@@ -65,21 +65,6 @@ public class WebUIController {
         dummyVet.addAppointment(appt);
     }
 
-    @GetMapping("/")
-    public String showIndex() {
-        return "index";
-    }
-
-    @GetMapping("/login")
-    public String showLogin() {
-        return "login";
-    }
-
-    @GetMapping("/signup")
-    public String showSignUpPage() {
-        return "signup";
-    }
-
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
@@ -90,6 +75,7 @@ public class WebUIController {
     public String processLogin(@RequestParam("username") String username,
                                @RequestParam("password") String password,
                                HttpSession session) {
+
         Optional<Vet> vetOpt = vetRepository.findById(username);
         if (vetOpt.isPresent() && vetOpt.get().getPassword().equals(password)) {
             session.setAttribute("loggedInUserId", username);
