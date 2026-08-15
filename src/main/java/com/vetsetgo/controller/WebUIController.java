@@ -117,6 +117,20 @@ public class WebUIController {
         return "redirect:/owner/dashboard";
     }
 
+
+    // 2. Vet Action: Update Appointment Status
+    @PostMapping("/vet/update-appointment")
+    public String updateAppointmentStatus(@RequestParam("appointmentId") String appointmentId,
+                                          @RequestParam("status") AppointmentStatus status) {
+        for (Appointment appt : dummyAppointments) {
+            if (appt.getId().equals(appointmentId)) {
+                appt.setStatus(status); // Utilizing Encapsulation (Setter)
+                break;
+            }
+        }
+        return "redirect:/vet/dashboard";
+    }
+
     // Helper Method
     private Pet findPetByName(String name) {
         for (Pet p : dummyOwner.getPets()) {
