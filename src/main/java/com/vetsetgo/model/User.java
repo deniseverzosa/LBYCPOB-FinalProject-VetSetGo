@@ -25,10 +25,12 @@ public abstract class User {
     // Default constructor required by Spring Data JPA
     public User() {}
 
-    public User(String id, String name, String password) {
+    public User(String id, String name, String password, String email, String phoneNumber) {
         this.id = id;
         this.name = name;
         this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     // Polymorphic method to render portal interface dynamically
