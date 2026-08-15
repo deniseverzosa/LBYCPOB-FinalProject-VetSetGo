@@ -24,8 +24,9 @@ public class VetSetGoApplication {
             System.out.println("==================================================");
 
             // 1. Instantiating Subclasses (Inheritance)
-            PetOwner owner = new PetOwner("O101", "Alice Johnson", "pass123");
-            Vet vet = new Vet("V202", "Dr. Bob Miller", "vetpass", "VET-LICENSE-99");
+            // FIX: Added mock email and phone number parameters
+            PetOwner owner = new PetOwner("O101", "Alice Johnson", "pass123", "alice@email.com", "555-1234");
+            Vet vet = new Vet("V202", "Dr. Bob Miller", "vetpass", "drbob@email.com", "555-9876", "VET-LICENSE-99");
 
             // 2. Polymorphism Demonstration
             User loggedInUser = vet;
@@ -35,7 +36,8 @@ public class VetSetGoApplication {
             System.out.println("[AUTH] " + loggedInUser.displayUserPortal());
 
             // 3. Testing Encapsulation & Rules
-            Pet pet = new Pet("Luna", "Feline");
+            // FIX: Added the breed parameter ("Domestic Shorthair")
+            Pet pet = new Pet("Luna", "Feline", "Domestic Shorthair");
             try {
                 pet.setAge(-1); // Triggers Encapsulation Validation
             } catch (IllegalArgumentException e) {
@@ -49,6 +51,7 @@ public class VetSetGoApplication {
             LocalDateTime appointmentTime = LocalDateTime.of(2026, 8, 15, 11, 0);
             if (DateTimeUtil.isWithinClinicHours(appointmentTime)) {
                 Appointment appointment = new Appointment("A-1", vet, owner, pet, appointmentTime);
+                // The getStatus() will now print "PENDING" automatically due to the new Enum default
                 System.out.println("[SCHEDULER] " + appointment.getStatus() + " appointment for " + pet.getName());
             }
 
