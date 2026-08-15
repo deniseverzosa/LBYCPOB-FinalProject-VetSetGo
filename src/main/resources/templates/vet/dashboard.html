@@ -6,7 +6,7 @@
 <div th:replace="~{fragments/header :: navbar}"></div>
 
 <main class="container mt-5 flex-grow-1">
-    <h2 th:text="'Welcome Dr. ' + ${user.name}">Welcome, Dr. Vet</h2>
+    <h2 th:text="'Welcome ' + ${user.name}">Welcome, Dr. Vet</h2>
     <p class="text-muted" th:text="'License: ' + ${user.medicalLicense}"></p>
     <hr>
 
