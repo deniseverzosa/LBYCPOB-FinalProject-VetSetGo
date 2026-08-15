@@ -30,4 +30,10 @@ public class Vet extends User {
 
     public String getMedicalLicense() { return medicalLicense; }
     public void setMedicalLicense(String medicalLicense) { this.medicalLicense = medicalLicense; }
+
+    public List<String> getAvailableShifts() { return availableShifts; }
+    public void setAvailableShifts(List<String> availableShifts) { this.availableShifts = availableShifts; }
+
+    public List<Appointment> getUpcomingAppointments() { return upcomingAppointments; }
+    public void addAppointment(Appointment appointment) { this.upcomingAppointments.add(appointment); }
 }
