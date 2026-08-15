@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head('Owner Dashboard')}"></head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100 bg-light">
 
 <div th:replace="~{fragments/header :: navbar}"></div>
 
@@ -23,7 +23,12 @@
     </div>
 
     <h4 class="mt-5">Book an Appointment</h4>
-    <div class="card p-4 mb-5 shadow-sm bg-light">
+
+    <div th:if="${param.error != null}" class="alert alert-danger shadow-sm">
+        <strong>Booking Failed:</strong> Appointments can only be scheduled between 9:00 AM and 5:00 PM.
+    </div>
+
+    <div class="card p-4 mb-5 shadow-sm bg-white">
         <form th:action="@{/owner/book-appointment}" method="post">
             <div class="row">
                 <div class="col-md-5 mb-3">
@@ -33,7 +38,7 @@
                     </select>
                 </div>
                 <div class="col-md-5 mb-3">
-                    <label class="form-label fw-bold">Date & Time</label>
+                    <label class="form-label fw-bold">Date & Time (9 AM - 5 PM)</label>
                     <input type="datetime-local" name="timeSlot" class="form-control" required>
                 </div>
                 <div class="col-md-2 mb-3 d-flex align-items-end">
