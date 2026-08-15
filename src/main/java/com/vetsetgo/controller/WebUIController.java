@@ -22,12 +22,24 @@ public class WebUIController {
 
     @Autowired
     private PetOwnerRepository petOwnerRepository;
+
     @Autowired
     private VetRepository vetRepository;
+
     @Autowired
     private PetRepository petRepository;
+
     @Autowired
     private AppointmentRepository appointmentRepository;
+
+    @GetMapping("/")
+    public String showIndex() { return "index"; }
+
+    @GetMapping("/login")
+    public String showLogin() { return "login"; }
+
+    @GetMapping("/signup")
+    public String showSignUpPage() { return "signup"; }
 
     private final Vet dummyVet;
     private final PetOwner dummyOwner;
