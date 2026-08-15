@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: head('Login - PetPulse')}"></head>
+<head th:replace="~{fragments/header :: head('Login - VetSetGo')}"></head>
 <body class="d-flex flex-column min-vh-100 bg-light">
 
 <div th:replace="~{fragments/header :: navbar}"></div>
@@ -22,6 +22,11 @@
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Sign In</button>
                     </form>
+
+                    <div class="text-center mt-3">
+                        <p class="mb-0">Don't have an account? <a th:href="@{/signup}">Sign up here</a></p>
+                    </div>
+
                 </div>
             </div>
         </div>
