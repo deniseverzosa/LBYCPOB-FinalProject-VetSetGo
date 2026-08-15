@@ -42,3 +42,6 @@ public class Appointment {
 
     public PetOwner getOwner() { return owner; }
     public void setOwner(PetOwner owner) { this.owner = owner; }
+
+    public Pet getPet() { return pet; }
+    public void setPet(Pet pet) { this.pet = pet; }
