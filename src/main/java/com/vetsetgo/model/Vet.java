@@ -36,4 +36,14 @@ public class Vet extends User {
 
     public List<Appointment> getUpcomingAppointments() { return upcomingAppointments; }
     public void addAppointment(Appointment appointment) { this.upcomingAppointments.add(appointment); }
+
+    // Preventing double booking
+    public boolean isAvailableFor(java.time.LocalDateTime proposedTime) {
+        for (Appointment appt : upcomingAppointments) {
+            if (appt.getTimeSlot().equals(proposedTime)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -16,4 +16,12 @@ public class AppointmentController {
         }
         return ResponseEntity.ok("Appointment confirmed for " + dto.getPetName() + " on " + dto.getTimeSlot());
     }
+    //  Double-booking prevention logic
+    // TODO: Uncomment this when you have your VetService/Repository ready
+    // Vet requestedVet = vetRepository.findById(dto.getVetId());
+    //
+    // if (!requestedVet.isAvailableFor(dto.getTimeSlot())) {
+    //     return ResponseEntity.status(HttpStatus.CONFLICT)
+    //            .body("Failed to book: The doctor is already booked at this time.");
+    // }
 }
