@@ -6,14 +6,16 @@ import java.util.List;
 public class MedicalRecord {
     private String diagnosisNotes;
     private String medicineDosages;
-    private String vitalSigns; // Added property
+    private String vitalSigns;
     private List<MedicalService> servicesRendered;
+
+    // FIX: Added the missing Pet reference to link back to the owner pet
+    private Pet pet;
 
     public MedicalRecord() {
         this.servicesRendered = new ArrayList<>();
     }
 
-    // Updated constructor to accept all three arguments
     public MedicalRecord(String diagnosisNotes, String medicineDosages, String vitalSigns) {
         this.diagnosisNotes = diagnosisNotes;
         this.medicineDosages = medicineDosages;
@@ -47,4 +49,7 @@ public class MedicalRecord {
 
     public String getVitalSigns() { return vitalSigns; }
     public void setVitalSigns(String vitalSigns) { this.vitalSigns = vitalSigns; }
+
+    public Pet getPet() { return pet; }
+    public void setPet(Pet pet) { this.pet = pet; }
 }
