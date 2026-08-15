@@ -22,4 +22,12 @@ public class Vet extends User {
         this.availableShifts = new ArrayList<>();
         this.upcomingAppointments = new ArrayList<>();
     }
+
+    @Override
+    public String displayUserPortal() {
+        return "Rendering Administrative Portal... Welcome Dr. " + getName() + " (License: " + medicalLicense + ")";
+    }
+
+    public String getMedicalLicense() { return medicalLicense; }
+    public void setMedicalLicense(String medicalLicense) { this.medicalLicense = medicalLicense; }
 }
