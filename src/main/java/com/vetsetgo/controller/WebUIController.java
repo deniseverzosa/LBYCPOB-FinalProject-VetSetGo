@@ -121,16 +121,14 @@ public class WebUIController {
     }
 
     @GetMapping("/vet/medical-history")
-    public String showMedicalHistory(@RequestParam("petId") String petId, Model model) {
-        Pet targetPet = findPetByName(petId);
-        model.addAttribute("pet", targetPet);
-        model.addAttribute("user", dummyVet);
+    public String showMedicalHistory(@RequestParam("petId") String petId, HttpSession session, Model model) {
+        String userId = (String) session.getAttribute("loggedInUserId");
+        Optional<Vet> vetOpt = vetRepository.findById(userId);
+        if (vetOpt.isEmpty()) return "redirect:/login";
 
-        if (targetPet != null && targetPet.getMedicalRecords() != null) {
-            model.addAttribute("records", targetPet.getMedicalRecords());
-        } else {
-            model.addAttribute("records", new ArrayList<MedicalRecord>());
-        }
+        model.addAttribute("user", vetOpt.get());
+        model.addAttribute("pet", null);
+        model.addAttribute("records", new ArrayList<>());
         return "vet/medical-history";
     }
 
@@ -178,11 +176,11 @@ public class WebUIController {
     @PostMapping("/vet/update-appointment")
     public String updateAppointmentStatus(@RequestParam("appointmentId") String appointmentId,
                                           @RequestParam("status") AppointmentStatus status) {
-        for (Appointment appt : dummyAppointments) {
-            if (appt.getId().equals(appointmentId)) {
-                appt.setStatus(status);
-                break;
-            }
+        Optional<Appointment> apptOpt = appointmentRepository.findById(appointmentId);
+        if (apptOpt.isPresent()) {
+            Appointment appt = apptOpt.get();
+            appt.setStatus(status);
+            appointmentRepository.save(appt);
         }
         return "redirect:/vet/dashboard";
     }
@@ -192,11 +190,6 @@ public class WebUIController {
                                    @RequestParam("diagnosisNotes") String diagnosisNotes,
                                    @RequestParam("medicineDosages") String medicineDosages,
                                    @RequestParam("vitalSigns") String vitalSigns) {
-        Pet targetPet = findPetByName(petName);
-        if (targetPet != null) {
-            MedicalRecord newRecord = new MedicalRecord(diagnosisNotes, medicineDosages, vitalSigns);
-            targetPet.addMedicalRecord(newRecord);
-        }
         return "redirect:/vet/medical-history?petId=" + petName;
     }
 
