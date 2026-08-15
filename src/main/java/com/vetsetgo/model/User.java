@@ -18,6 +18,9 @@ public abstract class User {
     private String id;
     private String name;
     private String password;
+    // New Contact Fields
+    private String email;
+    private String phoneNumber;
 
     // Default constructor required by Spring Data JPA
     public User() {}
