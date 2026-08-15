@@ -15,6 +15,6 @@ public class Surgery extends MedicalService {
 
     @Override
     public String getDetails() {
-        return getServiceName() + " [Anesthesia: $" + anesthesiaFee + "]";
+        return getServiceName() + " [Anesthesia: ₱" + anesthesiaFee + "]";
     }
 }
