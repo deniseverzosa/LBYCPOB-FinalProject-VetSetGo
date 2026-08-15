@@ -91,25 +91,33 @@ public class WebUIController {
         return "redirect:/login?error";
     }
 
-    @GetMapping("/vet/dashboard")
-    public String showVetDashboard(Model model) {
-        model.addAttribute("user", dummyVet);
-        model.addAttribute("appointments", dummyAppointments);
-        return "vet/dashboard";
-    }
-
     @GetMapping("/owner/dashboard")
-    public String showOwnerDashboard(Model model, HttpSession session) {
-        String loggedInUserId = (String) session.getAttribute("loggedInUserId");
-        if (loggedInUserId != null && petOwnerRepository.existsById(loggedInUserId)) {
-            PetOwner realOwner = petOwnerRepository.findById(loggedInUserId).get();
-            model.addAttribute("user", realOwner);
-            model.addAttribute("pets", realOwner.getPets());
+    public String showOwnerDashboard(HttpSession session, Model model) {
+        String userId = (String) session.getAttribute("loggedInUserId");
+        if (userId == null) return "redirect:/login";
+
+        Optional<PetOwner> ownerOpt = petOwnerRepository.findById(userId);
+        if (ownerOpt.isPresent()) {
+            PetOwner owner = ownerOpt.get();
+            model.addAttribute("user", owner);
+            model.addAttribute("pets", owner.getPets());
             return "owner/dashboard";
         }
-        model.addAttribute("user", dummyOwner);
-        model.addAttribute("pets", dummyOwner.getPets());
-        return "owner/dashboard";
+        return "redirect:/login";
+    }
+
+    @GetMapping("/vet/dashboard")
+    public String showVetDashboard(HttpSession session, Model model) {
+        String userId = (String) session.getAttribute("loggedInUserId");
+        if (userId == null) return "redirect:/login";
+
+        Optional<Vet> vetOpt = vetRepository.findById(userId);
+        if (vetOpt.isPresent()) {
+            model.addAttribute("user", vetOpt.get());
+            model.addAttribute("appointments", appointmentRepository.findAll());
+            return "vet/dashboard";
+        }
+        return "redirect:/login";
     }
 
     @GetMapping("/vet/medical-history")
