@@ -101,7 +101,14 @@ public class WebUIController {
     }
 
     @GetMapping("/owner/dashboard")
-    public String showOwnerDashboard(Model model) {
+    public String showOwnerDashboard(Model model, HttpSession session) {
+        String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+        if (loggedInUserId != null && petOwnerRepository.existsById(loggedInUserId)) {
+            PetOwner realOwner = petOwnerRepository.findById(loggedInUserId).get();
+            model.addAttribute("user", realOwner);
+            model.addAttribute("pets", realOwner.getPets());
+            return "owner/dashboard";
+        }
         model.addAttribute("user", dummyOwner);
         model.addAttribute("pets", dummyOwner.getPets());
         return "owner/dashboard";
