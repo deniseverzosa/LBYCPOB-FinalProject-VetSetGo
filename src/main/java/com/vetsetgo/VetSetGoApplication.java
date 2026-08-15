@@ -24,7 +24,6 @@ public class VetSetGoApplication {
             System.out.println("==================================================");
 
             // 1. Instantiating Subclasses (Inheritance)
-            // FIX: Added mock email and phone number parameters
             PetOwner owner = new PetOwner("O101", "Alice Johnson", "pass123", "alice@email.com", "555-1234");
             Vet vet = new Vet("V202", "Dr. Bob Miller", "vetpass", "drbob@email.com", "555-9876", "VET-LICENSE-99");
 
@@ -36,7 +35,6 @@ public class VetSetGoApplication {
             System.out.println("[AUTH] " + loggedInUser.displayUserPortal());
 
             // 3. Testing Encapsulation & Rules
-            // FIX: Added the breed parameter ("Domestic Shorthair")
             Pet pet = new Pet("Luna", "Feline", "Domestic Shorthair");
             try {
                 pet.setAge(-1); // Triggers Encapsulation Validation
