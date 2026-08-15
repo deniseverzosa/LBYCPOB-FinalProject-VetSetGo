@@ -14,6 +14,10 @@ public class MedicalRecord {
     private String medicineDosages;
     private String vitalSigns;
 
+    @ManyToOne
+    @JoinColumn(name = "pet_id")
+    private Pet pet;
+
     public MedicalRecord() {}
 
     //Constructor now accepts the new fields and sets current time
@@ -38,4 +42,7 @@ public class MedicalRecord {
 
     public String getVitalSigns() { return vitalSigns; }
     public void setVitalSigns(String vitalSigns) { this.vitalSigns = vitalSigns; }
+
+    public Pet getPet() { return pet; }
+    public void setPet(Pet pet) { this.pet = pet; }
 }
