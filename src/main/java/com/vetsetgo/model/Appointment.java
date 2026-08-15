@@ -45,3 +45,6 @@ public class Appointment {
 
     public Pet getPet() { return pet; }
     public void setPet(Pet pet) { this.pet = pet; }
+
+    public LocalDateTime getTimeSlot() { return timeSlot; }
+    public void setTimeSlot(LocalDateTime timeSlot) { this.timeSlot = timeSlot; }
