@@ -1,25 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head('Medical History')}"></head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100 bg-light">
 
 <div th:replace="~{fragments/header :: navbar}"></div>
 
 <main class="container mt-5 flex-grow-1">
-    <h2 th:text="'Medical Records: ' + ${pet.name}">Medical Records</h2>
-    <a th:href="@{/vet/dashboard}" class="btn btn-sm btn-secondary mb-3">&larr; Back to Schedule</a>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 th:text="'Medical Records: ' + ${pet.name}">Medical Records</h2>
+        <a th:href="@{/vet/dashboard}" class="btn btn-sm btn-secondary">&larr; Back to Schedule</a>
+    </div>
 
-    <div class="list-group mt-3">
+    <div class="card p-4 mb-4 shadow-sm border-info">
+        <h5 class="text-info mb-3">Log New Clinical Exam</h5>
+        <form th:action="@{/vet/add-medical-record}" method="post">
+            <input type="hidden" name="petName" th:value="${pet.name}">
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    <input type="text" name="diagnosisNotes" class="form-control" placeholder="Diagnosis & Vet Notes..." required>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <input type="text" name="medicineDosages" class="form-control" placeholder="Prescribed Medications & Dosages" required>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <input type="text" name="vitalSigns" class="form-control" placeholder="Vital Signs (e.g., HR: 110bpm, Temp: 38C)" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-info text-white mt-2">Save Record</button>
+        </form>
+    </div>
+
+    <h5 class="mt-4">Past History</h5>
+    <div class="list-group mt-2 shadow-sm">
         <div th:each="record : ${records}" class="list-group-item flex-column align-items-start mb-2 border rounded">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1 text-primary" th:text="${record.diagnosisNotes}">Diagnosis Notes</h5>
-                <small class="text-muted" th:text="${#temporals.format(record.timestamp, 'yyyy-MM-dd HH:mm')}">Record Date</small>
+                <span class="badge bg-secondary" th:text="${#temporals.format(record.timestamp, 'yyyy-MM-dd HH:mm')}">Date</span>
             </div>
             <p class="mb-1 mt-2"><strong>Medications:</strong> <span th:text="${record.medicineDosages}"></span></p>
             <p class="mb-1"><strong>Vital Signs:</strong> <span th:text="${record.vitalSigns}"></span></p>
         </div>
 
-        <div th:if="${#lists.isEmpty(records)}" class="alert alert-info">
+        <div th:if="${#lists.isEmpty(records)}" class="alert alert-warning">
             No medical records found for this pet.
         </div>
     </div>
