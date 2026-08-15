@@ -1,29 +1,16 @@
 package com.vetsetgo.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Vet extends User {
     private String medicalLicense;
 
-    // Default constructor required by Spring Data JPA
-    public Vet() {}
+    @ElementCollection
+    private List<String> availableShifts;
 
-    public Vet(String id, String name, String password, String medicalLicense) {
-        super(id, name, password);
-        this.medicalLicense = medicalLicense;
-    }
-
-    public String getMedicalLicense() {
-        return medicalLicense;
-    }
-
-    @Override
-    public String displayUserPortal() {
-        return "Rendering Administrative Portal... Welcome Dr. " + getName() + " (License: " + medicalLicense + ")";
-    }
-
-    public void setMedicalLicense(String medicalLicense) {
-        this.medicalLicense = medicalLicense;
-    }
+    @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL)
+    private List<Appointment> upcomingAppointments;
 }
