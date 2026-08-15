@@ -1,6 +1,7 @@
 package com.vetsetgo.controller;
 
 import com.vetsetgo.dto.PetDTO;
+import com.vetsetgo.model.Pet;
 import com.vetsetgo.model.PetOwner;
 import com.vetsetgo.repository.PetOwnerRepository;
 import com.vetsetgo.repository.PetRepository;
@@ -31,6 +32,18 @@ public class PetController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Pet Owner not found.");
         }
         PetOwner owner = ownerOpt.get();
-        return ResponseEntity.ok("Owner verified. Ready for pet registration.");
+
+        try {
+            String breed = (petDTO.getBreed() != null && !petDTO.getBreed().isEmpty()) ? petDTO.getBreed() : "Not Specified";
+            Pet pet = new Pet(petDTO.getName(), petDTO.getSpecies(), breed);
+            pet.setAge(petDTO.getAge());
+            pet.setWeight(petDTO.getWeight());
+            pet.setAllergies(petDTO.getAllergies());
+            pet.setOwner(owner);
+            petRepository.save(pet);
+            return ResponseEntity.ok("Successfully registered pet: " + pet.getName() + " for owner: " + owner.getName());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Validation Error: " + e.getMessage());
+        }
     }
 }
