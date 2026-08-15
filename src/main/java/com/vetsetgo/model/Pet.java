@@ -1,15 +1,23 @@
 package com.vetsetgo.model;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Pet {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String species;
     private String breed;
     private int age;
     private double weight;
     private List<MedicalRecord> medicalRecords;
+
+    public Pet() {}
 
     public Pet(String name, String species, String breed) {
         this.name = name;
@@ -23,21 +31,18 @@ public class Pet {
         if (age < 0) throw new IllegalArgumentException("Age cannot be negative.");
         this.age = age;
     }
-
     public void setWeight(double weight) {
         if (weight <= 0) throw new IllegalArgumentException("Weight must be greater than 0.");
         this.weight = weight;
     }
 
+    public Long getId() { return id; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
-
     public String getSpecies() { return species; }
     public void setSpecies(String species) { this.species = species; }
-
     public String getBreed() { return breed; }
     public void setBreed(String breed) { this.breed = breed; }
-
     public int getAge() { return age; }
     public double getWeight() { return weight; }
 
