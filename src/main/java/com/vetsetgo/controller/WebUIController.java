@@ -50,6 +50,11 @@ public class WebUIController {
         return "login";
     }
 
+    @GetMapping("/signup")
+    public String showSignUpPage() {
+        return "signup";
+    }
+
     @PostMapping("/login")
     public String processLogin(@RequestParam("username") String username, @RequestParam("password") String password) {
         if ("V202".equals(username) && "vetpass".equals(password)) {
