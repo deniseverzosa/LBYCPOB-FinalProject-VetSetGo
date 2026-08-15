@@ -1,7 +1,9 @@
 package com.vetsetgo.controller;
 
 import com.vetsetgo.dto.AppointmentDTO;
+import com.vetsetgo.model.Appointment;
 import com.vetsetgo.model.Vet;
+import com.vetsetgo.repository.AppointmentRepository;
 import com.vetsetgo.repository.VetRepository;
 import com.vetsetgo.utils.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/appointments")
@@ -18,11 +21,15 @@ public class AppointmentController {
     @Autowired
     private VetRepository vetRepository;
 
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
     @PostMapping("/book")
     public ResponseEntity<String> bookAppointment(@RequestBody AppointmentDTO dto) {
         if (!DateTimeUtil.isWithinClinicHours(dto.getTimeSlot())) {
             return ResponseEntity.badRequest().body("Failed to book: Appointments must be during clinic hours (9 AM - 5 PM).");
         }
+
         Optional<Vet> vetOptional = vetRepository.findById(dto.getVetId());
         if (vetOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -34,6 +41,14 @@ public class AppointmentController {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("Failed to book: Dr. " + requestedVet.getName() + " is already booked at this time.");
         }
-        return ResponseEntity.ok("Appointment confirmed for " + dto.getPetName() + " on " + dto.getTimeSlot());
+
+        Appointment newAppointment = new Appointment();
+        newAppointment.setId(dto.getId() != null ? dto.getId() : UUID.randomUUID().toString());
+        newAppointment.setTimeSlot(dto.getTimeSlot());
+        newAppointment.setVet(requestedVet);
+        appointmentRepository.save(newAppointment);
+        requestedVet.addAppointment(newAppointment);
+        vetRepository.save(requestedVet);
+        return ResponseEntity.ok("Appointment confirmed for " + dto.getPetName() + " on " + dto.getTimeSlot() + ". Data successfully saved!");
     }
 }
