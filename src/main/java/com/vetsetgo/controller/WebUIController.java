@@ -67,4 +67,58 @@ public class WebUIController {
     public String showVetDashboard() {
         return "dashboard"; // Renders your vet dashboard HTML
     }
+
+    @GetMapping("/owner/dashboard")
+    public String showOwnerDashboard(Model model) {
+        model.addAttribute("user", dummyOwner);
+        // Safely pass pets list explicitly just in case the template needs it directly
+        model.addAttribute("pets", dummyOwner.getPets());
+        return "owner/dashboard";
+    }
+
+    @GetMapping("/vet/medical-history")
+    public String showMedicalHistory(@RequestParam String petId, Model model) {
+        Pet targetPet = findPetByName(petId);
+
+        model.addAttribute("pet", targetPet);
+        model.addAttribute("user", dummyVet);
+
+        // Blanket-proofing: passing records explicitly
+        if (targetPet != null && targetPet.getMedicalRecords() != null) {
+            model.addAttribute("records", targetPet.getMedicalRecords());
+        } else {
+            model.addAttribute("records", new ArrayList<MedicalRecord>());
+        }
+
+        return "vet/medical-history";
+    }
+
+    @GetMapping("/owner/pet-profile")
+    public String showPetProfile(@RequestParam String name, Model model) {
+        Pet targetPet = findPetByName(name);
+
+        model.addAttribute("pet", targetPet);
+        model.addAttribute("user", dummyOwner);
+
+        // Blanket-proofing: passing records and appointments explicitly so the template never finds a null list
+        if (targetPet != null && targetPet.getMedicalRecords() != null) {
+            model.addAttribute("records", targetPet.getMedicalRecords());
+        } else {
+            model.addAttribute("records", new ArrayList<MedicalRecord>());
+        }
+
+        model.addAttribute("appointments", dummyAppointments);
+
+        return "owner/pet-profile";
+    }
+
+    // Helper method to keep code clean
+    private Pet findPetByName(String name) {
+        for (Pet p : dummyOwner.getPets()) {
+            if (p.getName().equalsIgnoreCase(name)) {
+                return p;
+            }
+        }
+        return null;
+    }
 }
