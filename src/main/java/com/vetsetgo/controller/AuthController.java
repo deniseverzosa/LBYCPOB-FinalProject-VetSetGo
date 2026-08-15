@@ -29,6 +29,6 @@ public class AuthController {
                 dto.getPhoneNumber()
         );
         petOwnerRepository.save(newOwner);
-        return ResponseEntity.ok("Sign up successful! Welcome to the PetPulse portal, " + newOwner.getName() + ". Your ID is: " + generatedId);
+        return ResponseEntity.ok("Sign up successful! Welcome to the VetSetGo portal, " + newOwner.getName() + ". Your ID is: " + generatedId);
     }
 }
