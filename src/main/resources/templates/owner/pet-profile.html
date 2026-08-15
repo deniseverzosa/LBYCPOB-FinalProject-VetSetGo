@@ -1,23 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head('Pet Profile')}"></head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100 bg-light">
 
 <div th:replace="~{fragments/header :: navbar}"></div>
 
 <main class="container mt-5 flex-grow-1">
-    <!-- FIX: Replaced the broken single-quote concatenation with Literal Substitution -->
-    <h2 th:text="|${pet.name}'s Profile|">Pet Profile</h2>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <!-- FIXED: Using Thymeleaf literal substitution to prevent 500 parsing errors -->
+        <h2 th:text="|${pet.name}'s Profile|">Pet Profile</h2>
+        <a th:href="@{/owner/dashboard}" class="btn btn-sm btn-secondary">&larr; Back to Dashboard</a>
+    </div>
 
-    <a th:href="@{/owner/dashboard}" class="btn btn-sm btn-secondary mb-3">&larr; Back to Dashboard</a>
+    <div class="card p-3 mb-4 shadow-sm border-primary">
+        <p class="mb-1"><strong>Species:</strong> <span th:text="${pet.species}"></span></p>
+        <p class="mb-1"><strong>Breed:</strong> <span th:text="${pet.breed}"></span></p>
+        <p class="mb-1"><strong>Age:</strong> <span th:text="${pet.age} + ' years'"></span></p>
+        <p class="mb-0"><strong>Weight:</strong> <span th:text="${pet.weight} + ' kg'"></span></p>
+    </div>
 
-    <div class="card mt-2">
-        <div class="card-header bg-primary text-white">Pet Details</div>
-        <div class="card-body">
-            <p><strong>Species:</strong> <span th:text="${pet.species}"></span></p>
-            <p><strong>Breed:</strong> <span th:text="${pet.breed}"></span></p>
-            <p><strong>Age:</strong> <span th:text="${pet.age}"></span> years</p>
-            <p><strong>Weight:</strong> <span th:text="${pet.weight}"></span> kg</p>
+    <h4 class="mt-4">Appointment Status</h4>
+    <table class="table table-bordered bg-white shadow-sm align-middle">
+        <thead class="table-primary">
+        <tr>
+            <th>Date & Time</th>
+            <th>Veterinarian</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="appt : ${appointments}">
+            <td th:text="${#temporals.format(appt.timeSlot, 'yyyy-MM-dd HH:mm')}">Date</td>
+            <td th:text="${appt.vet.name}">Vet Name</td>
+            <td>
+                <!-- FIXED: Added null-safety checks to prevent crashes if status is missing -->
+                <span class="badge bg-info text-dark" th:if="${appt.status != null and appt.status.name() == 'PENDING'}">Pending</span>
+                <span class="badge bg-primary" th:if="${appt.status != null and appt.status.name() == 'CONFIRMED'}">Confirmed</span>
+                <span class="badge bg-success" th:if="${appt.status != null and appt.status.name() == 'COMPLETED'}">Completed</span>
+                <span class="badge bg-secondary" th:if="${appt.status == null}">Unassigned</span>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(appointments)}">
+            <td colspan="3" class="text-center text-muted">No appointments found.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4 class="mt-5">Medical History</h4>
+    <div class="list-group mt-2 shadow-sm mb-5">
+        <div th:each="record : ${records}" class="list-group-item flex-column align-items-start mb-2 border rounded">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1 text-primary" th:text="${record.diagnosisNotes}">Diagnosis</h5>
+                <span class="badge bg-secondary" th:text="${record.timestamp != null ? #temporals.format(record.timestamp, 'yyyy-MM-dd HH:mm') : 'N/A'}">Date</span>
+            </div>
+            <p class="mb-1 mt-2"><strong>Medications:</strong> <span th:text="${record.medicineDosages}"></span></p>
+            <p class="mb-1"><strong>Vital Signs:</strong> <span th:text="${record.vitalSigns}"></span></p>
+        </div>
+        <div th:if="${#lists.isEmpty(records)}" class="alert alert-warning">
+            No medical records have been logged yet.
         </div>
     </div>
 </main>
