@@ -1,4 +1,7 @@
 package com.vetsetgo.model;
 
-public class AppointmentStatus {
+public enum AppointmentStatus {
+    PENDING,
+    CONFIRMED,
+    COMPLETED
 }
