@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Controller
 public class WebUIController {
@@ -40,30 +38,6 @@ public class WebUIController {
 
     @GetMapping("/signup")
     public String showSignUpPage() { return "signup"; }
-
-    private final Vet dummyVet;
-    private final PetOwner dummyOwner;
-    private final List<Appointment> dummyAppointments;
-
-    public WebUIController() {
-        dummyOwner = new PetOwner("O101", "Alice Johnson", "pass123", "alice@email.com", "555-1234");
-        dummyVet = new Vet("V202", "Dr. Bob Miller", "vetpass", "drbob@email.com", "555-9876", "VET-LICENSE-99");
-
-        Pet pet = new Pet("Luna", "Feline", "Domestic Shorthair");
-        pet.setAge(2);
-        pet.setWeight(4.5);
-
-        MedicalRecord record = new MedicalRecord("Routine Checkup: All clear", "None required", "HR: 120bpm, Temp: 38.5C");
-        pet.addMedicalRecord(record);
-
-        dummyOwner.addPet(pet);
-
-        Appointment appt = new Appointment("A-1", dummyVet, dummyOwner, pet, LocalDateTime.now().plusDays(2).withHour(10).withMinute(0));
-        dummyAppointments = new ArrayList<>();
-        dummyAppointments.add(appt);
-
-        dummyVet.addAppointment(appt);
-    }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
@@ -101,9 +75,33 @@ public class WebUIController {
             PetOwner owner = ownerOpt.get();
             model.addAttribute("user", owner);
             model.addAttribute("pets", owner.getPets());
+            model.addAttribute("vets", vetRepository.findAll());
             return "owner/dashboard";
         }
         return "redirect:/login";
+    }
+
+    @PostMapping("/owner/add-pet")
+    public String addPet(@RequestParam("name") String name,
+                         @RequestParam("species") String species,
+                         @RequestParam("breed") String breed,
+                         @RequestParam("age") int age,
+                         @RequestParam("weight") double weight,
+                         HttpSession session) {
+        String userId = (String) session.getAttribute("loggedInUserId");
+        Optional<PetOwner> ownerOpt = petOwnerRepository.findById(userId);
+
+        if (ownerOpt.isPresent()) {
+            PetOwner owner = ownerOpt.get();
+            Pet newPet = new Pet(name, species, breed);
+            newPet.setAge(age);
+            newPet.setWeight(weight);
+
+            petRepository.save(newPet);
+            owner.addPet(newPet);
+            petOwnerRepository.save(owner);
+        }
+        return "redirect:/owner/dashboard";
     }
 
     @GetMapping("/vet/dashboard")
@@ -118,18 +116,6 @@ public class WebUIController {
             return "vet/dashboard";
         }
         return "redirect:/login";
-    }
-
-    @GetMapping("/vet/medical-history")
-    public String showMedicalHistory(@RequestParam("petId") String petId, HttpSession session, Model model) {
-        String userId = (String) session.getAttribute("loggedInUserId");
-        Optional<Vet> vetOpt = vetRepository.findById(userId);
-        if (vetOpt.isEmpty()) return "redirect:/login";
-
-        model.addAttribute("user", vetOpt.get());
-        model.addAttribute("pet", null);
-        model.addAttribute("records", new ArrayList<>());
-        return "vet/medical-history";
     }
 
     @GetMapping("/owner/pet-profile")
@@ -151,26 +137,45 @@ public class WebUIController {
 
     @PostMapping("/owner/book-appointment")
     public String bookAppointment(@RequestParam("petName") String petName,
+                                  @RequestParam("vetId") String vetId,
                                   @RequestParam("timeSlot") String timeSlotStr,
                                   HttpSession session) {
         String userId = (String) session.getAttribute("loggedInUserId");
         Optional<PetOwner> ownerOpt = petOwnerRepository.findById(userId);
+        Optional<Vet> selectedVetOpt = vetRepository.findById(vetId);
 
-        if (ownerOpt.isPresent()) {
+        if (ownerOpt.isPresent() && selectedVetOpt.isPresent()) {
             PetOwner owner = ownerOpt.get();
             Pet targetPet = owner.getPets().stream().filter(p -> p.getName().equalsIgnoreCase(petName)).findFirst().orElse(null);
 
             if (targetPet != null) {
                 LocalDateTime dateTime = LocalDateTime.parse(timeSlotStr);
-                Vet vet = vetRepository.findAll().stream().findFirst().orElse(null);
-                if (vet != null) {
-                    String newApptId = "A-" + UUID.randomUUID().toString().substring(0, 4).toUpperCase();
-                    Appointment newAppt = new Appointment(newApptId, vet, owner, targetPet, dateTime);
-                    appointmentRepository.save(newAppt);
-                }
+                String newApptId = "A-" + UUID.randomUUID().toString().substring(0, 4).toUpperCase();
+                Appointment newAppt = new Appointment(newApptId, selectedVetOpt.get(), owner, targetPet, dateTime);
+                appointmentRepository.save(newAppt);
             }
         }
         return "redirect:/owner/dashboard";
+    }
+
+    @GetMapping("/vet/medical-history")
+    public String showMedicalHistory(@RequestParam("petId") String petId, HttpSession session, Model model) {
+        String userId = (String) session.getAttribute("loggedInUserId");
+        if (userId == null) return "redirect:/login";
+
+        Optional<Vet> vetOpt = vetRepository.findById(userId);
+        if (vetOpt.isEmpty()) return "redirect:/login";
+
+        model.addAttribute("user", vetOpt.get());
+
+        Pet targetPet = petRepository.findAll().stream()
+                .filter(p -> p.getName().equalsIgnoreCase(petId))
+                .findFirst()
+                .orElse(null);
+
+        model.addAttribute("pet", targetPet);
+        model.addAttribute("records", targetPet != null ? targetPet.getMedicalRecords() : new ArrayList<>());
+        return "vet/medical-history";
     }
 
     @PostMapping("/vet/update-appointment")
@@ -185,20 +190,24 @@ public class WebUIController {
         return "redirect:/vet/dashboard";
     }
 
+    // FIX: Save new medical records to the specific pet in the database
     @PostMapping("/vet/add-medical-record")
     public String addMedicalRecord(@RequestParam("petName") String petName,
                                    @RequestParam("diagnosisNotes") String diagnosisNotes,
                                    @RequestParam("medicineDosages") String medicineDosages,
                                    @RequestParam("vitalSigns") String vitalSigns) {
-        return "redirect:/vet/medical-history?petId=" + petName;
-    }
 
-    private Pet findPetByName(String name) {
-        for (Pet p : dummyOwner.getPets()) {
-            if (p.getName().equalsIgnoreCase(name)) {
-                return p;
-            }
+        Pet targetPet = petRepository.findAll().stream()
+                .filter(p -> p.getName().equalsIgnoreCase(petName))
+                .findFirst()
+                .orElse(null);
+
+        if (targetPet != null) {
+            MedicalRecord newRecord = new MedicalRecord(diagnosisNotes, medicineDosages, vitalSigns);
+            targetPet.addMedicalRecord(newRecord);
+            petRepository.save(targetPet); // Update the DB
         }
-        return null;
+
+        return "redirect:/vet/medical-history?petId=" + petName;
     }
 }
