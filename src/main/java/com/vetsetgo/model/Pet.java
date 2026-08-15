@@ -6,38 +6,48 @@ import java.util.List;
 public class Pet {
     private String name;
     private String species;
+    private String breed;
     private int age;
     private double weight;
-    private List<MedicalRecord> medicalHistory;
+    private List<MedicalRecord> medicalRecords;
 
-    public Pet(String name, String species) {
+    public Pet(String name, String species, String breed) {
         this.name = name;
         this.species = species;
-        this.medicalHistory = new ArrayList<>();
+        this.breed = breed;
+        this.medicalRecords = new ArrayList<>();
     }
 
-    // Encapsulation: Strict validation guards to prevent negative age values
+    // Encapsulation Rules
     public void setAge(int age) {
-        if (age < 0) {
-            throw new IllegalArgumentException("Invalid state: Age cannot be negative.");
-        }
+        if (age < 0) throw new IllegalArgumentException("Age cannot be negative.");
         this.age = age;
     }
 
     public void setWeight(double weight) {
-        if (weight <= 0) {
-            throw new IllegalArgumentException("Invalid state: Weight must be greater than 0.");
-        }
+        if (weight <= 0) throw new IllegalArgumentException("Weight must be greater than 0.");
         this.weight = weight;
     }
 
     public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
     public String getSpecies() { return species; }
+    public void setSpecies(String species) { this.species = species; }
+
+    public String getBreed() { return breed; }
+    public void setBreed(String breed) { this.breed = breed; }
+
     public int getAge() { return age; }
     public double getWeight() { return weight; }
 
+    public List<MedicalRecord> getMedicalRecords() { return this.medicalRecords; }
+    public void setMedicalRecords(List<MedicalRecord> medicalRecords) { this.medicalRecords = medicalRecords; }
+
     public void addMedicalRecord(MedicalRecord record) {
-        this.medicalHistory.add(record);
+        if (this.medicalRecords == null) {
+            this.medicalRecords = new ArrayList<>();
+        }
+        this.medicalRecords.add(record);
     }
-    public List<MedicalRecord> getMedicalHistory() { return medicalHistory; }
 }
