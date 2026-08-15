@@ -9,12 +9,12 @@ public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String species;
     private String breed;
     private int age;
     private double weight;
+    private String allergies;
 
     @ManyToOne
     private PetOwner owner;
@@ -53,6 +53,8 @@ public class Pet {
     public void setBreed(String breed) { this.breed = breed; }
     public int getAge() { return age; }
     public double getWeight() { return weight; }
+    public String getAllergies() { return allergies; }
+    public void setAllergies(String allergies) { this.allergies = allergies; }
     public PetOwner getOwner() { return owner; }
     public void setOwner(PetOwner owner) { this.owner = owner; }
     public List<MedicalRecord> getMedicalRecords() { return this.medicalRecords; }
