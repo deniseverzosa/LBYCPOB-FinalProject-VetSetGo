@@ -105,5 +105,21 @@
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+    function validateBookingTime(form) {
+        const timeInput = form.timeSlot.value;
+        if (!timeInput) return false;
+
+        const hours = new Date(timeInput).getHours();
+
+        if (hours < 9 || hours >= 17) {
+            alert("Appointments can only be booked during clinic hours: 9:00 AM to 5:00 PM.");
+            return false;
+        }
+        return true;
+    }
+</script>
+
 </body>
 </html>
