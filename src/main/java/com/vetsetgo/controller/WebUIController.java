@@ -249,6 +249,21 @@ public class WebUIController {
         if (vetOpt.isPresent()) {
             model.addAttribute("user", vetOpt.get());
 
+            List<Appointment> allAppointments = appointmentRepository.findAll().stream()
+                    .filter(a -> a.getVet().getId().equals(vetOpt.get().getId()))
+                    .toList();
+
+            List<Appointment> activeAppointments = allAppointments.stream()
+                    .filter(a -> a.getStatus() != AppointmentStatus.COMPLETED)
+                    .toList();
+
+            List<Appointment> completedAppointments = allAppointments.stream()
+                    .filter(a -> a.getStatus() == AppointmentStatus.COMPLETED)
+                    .toList();
+
+            model.addAttribute("activeAppointments", activeAppointments);
+            model.addAttribute("completedAppointments", completedAppointments);
+
             return "vet/dashboard";
         }
         return "redirect:/login";
