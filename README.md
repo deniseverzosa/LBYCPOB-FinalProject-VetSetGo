@@ -60,10 +60,10 @@ of sensitive data by providing persistent local storage of pet and appointment r
 
 
 - **Abstraction:**
-  In the system, abstraction is used to mask complicated backend processes from the application logic. The DataHandler interface means that 
-  the core application just knows that it has to use either the save() or load() method, with all the complicated file input/output and 
-  parsing algorithms used for the conversion to local JSON or CSV files kept hidden. In addition, the User class is abstracted to ensure that 
-  the system works only with particular Vets and Owners but not with a general, unspecified user.
+  The use of abstraction in the system helps to keep complicated tasks occurring in the backend hidden from the application code. The
+  core application simply uses commands such as save() and findById() through Spring Data JPA Repositories. The application does not deal
+  directly with any complicated database operations or SQL queries. In addition, the User class has been abstracted so that only the specific
+  people are treated by the system in the form of Vets and Owners instead of a general user.
 
 
 ## INITIAL CLASS IDEAS:
