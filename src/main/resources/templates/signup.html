@@ -2,16 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head('Sign Up - VetSetGo')}"></head>
 <body class="d-flex flex-column min-vh-100 bg-light">
-
 <div th:replace="~{fragments/header :: navbar}"></div>
-
 <main class="container mt-5 flex-grow-1">
-  <div class="row justify-content-center">
-    <div class="col-md-5">
-      <div class="card shadow-sm">
-        <div class="card-body p-4">
+  <div class="row justify-content-center align-items-stretch g-0 shadow-sm overflow-hidden vsg-auth-wrap">
+    <div class="col-md-6 order-2 order-md-1">
+      <div class="card border-0 h-100 rounded-0">
+        <div class="card-body p-4 p-md-5 d-flex flex-column justify-content-center h-100">
           <h3 class="text-center mb-4">Create a VetSetGo Account</h3>
-
           <form id="signupForm">
             <div class="mb-3">
               <label for="name" class="form-label">Full Name</label>
@@ -31,36 +28,34 @@
             </div>
             <button type="submit" class="btn btn-primary w-100">Sign Up</button>
           </form>
-
           <div class="text-center mt-3">
             <p class="mb-0">Already have an account? <a th:href="@{/login}">Login here</a></p>
           </div>
-
         </div>
       </div>
     </div>
+    <div class="col-md-6 order-1 order-md-2 d-none d-md-flex flex-column justify-content-center align-items-center text-center text-white p-5 vsg-auth-visual">
+      <img th:src="@{/images/pet-duo.png}" src="/images/pet-duo.png" alt="Illustration of a dog and a cat sitting together" class="vsg-auth-illustration mb-4">
+      <h4 class="text-white mb-2">Join the VetSetGo family</h4>
+      <p class="text-white-50 mb-0 vsg-auth-tagline">Create an account to register your pets, book appointments, and keep every checkup on record.</p>
+    </div>
   </div>
 </main>
-
 <div th:replace="~{fragments/footer :: footer}"></div>
-
 <script>
-  document.getElementById('signupForm').addEventListener('submit', async function(e) {
+  document.getElementById('signupForm').addEventListener('submit', async function (e) {
     e.preventDefault();
-
     const dtoData = {
       name: document.getElementById('name').value,
       email: document.getElementById('email').value,
       password: document.getElementById('password').value,
       phoneNumber: document.getElementById('phoneNumber').value
     };
-
     const response = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(dtoData)
     });
-
     if (response.ok) {
       const message = await response.text();
       alert(message);
