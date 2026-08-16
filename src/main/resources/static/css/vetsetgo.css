@@ -1,52 +1,59 @@
-/* ==========================================
-   VetSetGo Custom Styles
-   ========================================== */
-
-/* General body styling */
+/* VetSetGo Custom Styles (simplified) */
+:root {
+    --vsg-teal: #0f8f86;
+    --vsg-teal-dark: #0a6b63;
+    --vsg-apricot: #ff8f5e;
+    --vsg-ink: #16302e;
+    --vsg-paper: #f5faf7;
+}
 body {
-    background-color: #f8f9fa;
+    background-color: var(--vsg-paper);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--vsg-ink);
 }
-
-/* Card hover animations for Pet/Vet dashboards */
-.card {
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    border: none;
-    border-radius: 10px;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Navigation bar enhancements */
-.navbar-brand {
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-/* Custom button styling */
-.btn-primary {
-    background-color: #0d6efd;
-    border: none;
-    border-radius: 6px;
-}
-
-.btn-primary:hover {
-    background-color: #0b5ed7;
-}
-
-/* Make tables look a bit cleaner */
-.table {
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
-
-.table th {
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-}
+h1, h2, h3, h4, h5 { color: var(--vsg-ink); font-weight: 700; }
+a { color: var(--vsg-teal-dark); }
+a:hover { color: var(--vsg-apricot); }
+.navbar.bg-primary { background-color: var(--vsg-teal) !important; }
+.navbar-brand { font-weight: 700; letter-spacing: 1px; }
+.navbar-dark .navbar-nav .nav-link:hover { color: var(--vsg-apricot) !important; }
+.card { transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; border: none; border-radius: 10px; }
+.card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important; }
+.card-header.bg-primary { background-color: var(--vsg-teal) !important; }
+.border-primary { border-color: var(--vsg-teal) !important; }
+.border-info { border-color: var(--vsg-apricot) !important; }
+.text-primary { color: var(--vsg-teal) !important; }
+.btn { border-radius: 6px; font-weight: 600; border: none; transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out; }
+.btn:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); }
+.btn:active { transform: translateY(-1px); }
+.btn-primary { background-color: var(--vsg-teal); }
+.btn-primary:hover { background-color: var(--vsg-teal-dark); }
+.btn-success { background-color: #2e8b57; }
+.btn-success:hover { background-color: #226b42; }
+.btn-info { background-color: #3aafc9; color: #fff; }
+.btn-info:hover { background-color: #2c8fa6; color: #fff; }
+.btn-danger { background-color: #ef6461; }
+.btn-danger:hover { background-color: #d94d4a; }
+.btn-secondary { background-color: #46615f; }
+.btn-secondary:hover { background-color: var(--vsg-ink); }
+.btn-outline-primary { color: var(--vsg-teal); border: 2px solid var(--vsg-teal); background-color: transparent; }
+.btn-outline-primary:hover { background-color: var(--vsg-teal); color: #fff; }
+.btn-outline-danger { color: #d94d4a; border: 2px solid #ef6461; background-color: transparent; }
+.btn-outline-danger:hover { background-color: #ef6461; color: #fff; }
+.form-control, .form-select { border-radius: 6px; border: 1px solid #cfe8de; transition: box-shadow 0.15s ease-in-out, border-color 0.15s ease-in-out; }
+.form-control:focus, .form-select:focus { border-color: var(--vsg-teal); box-shadow: 0 0 0 3px rgba(15, 143, 134, 0.2); }
+.table { border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); }
+.table th { font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px; }
+.table thead.table-primary th { background-color: var(--vsg-teal) !important; color: #fff !important; }
+.table-hover > tbody > tr:hover { background-color: #dcefea !important; }
+.badge { font-weight: 600; padding: 0.5em 0.8em; }
+.badge.bg-info { background-color: var(--vsg-apricot) !important; color: #4a2c00 !important; }
+.badge.bg-primary { background-color: var(--vsg-teal) !important; }
+.badge.bg-success { background-color: #2e8b57 !important; }
+.alert { border: none; border-radius: 8px; }
+.alert-danger { border-left: 4px solid #ef6461; background-color: #fdecec; }
+.alert-warning { border-left: 4px solid #ffc857; background-color: #fff6e2; }
+.list-group-item { border-radius: 8px !important; transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
+.list-group-item:hover { transform: translateX(4px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); }
+.modal-header.bg-primary { background-color: var(--vsg-teal) !important; }
+footer.bg-dark { background-color: var(--vsg-ink) !important; }
