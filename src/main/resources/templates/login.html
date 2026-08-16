@@ -2,14 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head('Login - VetSetGo')}"></head>
 <body class="d-flex flex-column min-vh-100 bg-light">
-
 <div th:replace="~{fragments/header :: navbar}"></div>
-
 <main class="container mt-5 flex-grow-1">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow-sm">
-                <div class="card-body p-4">
+    <div class="row justify-content-center align-items-stretch g-0 shadow-sm overflow-hidden vsg-auth-wrap">
+        <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center text-center text-white p-5 vsg-auth-visual">
+            <img th:src="@{/images/pet-duo.png}" src="/images/pet-duo.png" alt="Illustration of a dog and a cat sitting together" class="vsg-auth-illustration mb-4">
+            <h4 class="text-white mb-2">Good to see you again</h4>
+            <p class="text-white-50 mb-0 vsg-auth-tagline">Sign in to book visits, check on your pet's health records, and stay in touch with their care team.</p>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 h-100 rounded-0">
+                <div class="card-body p-4 p-md-5 d-flex flex-column justify-content-center h-100">
                     <h3 class="text-center mb-4">Portal Login</h3>
                     <form th:action="@{/login}" method="post">
                         <div class="mb-3">
@@ -22,17 +25,14 @@
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Sign In</button>
                     </form>
-
                     <div class="text-center mt-3">
                         <p class="mb-0">Don't have an account? <a th:href="@{/signup}">Sign up here</a></p>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 </main>
-
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
