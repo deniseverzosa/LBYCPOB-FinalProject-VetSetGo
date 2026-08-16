@@ -6,93 +6,74 @@
 <div th:replace="~{fragments/header :: navbar}"></div>
 
 <main class="container mt-5 flex-grow-1">
-    <h2 th:text="'Welcome ' + ${user.name}">Welcome, Name</h2>
-    <hr>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 th:text="'Welcome, ' + ${user.name}">Welcome, Owner</h2>
+        <a th:href="@{/logout}" class="btn btn-outline-danger btn-sm">Logout</a>
+    </div>
+
+    <div th:if="${param.timeError}" class="alert alert-danger mb-4">
+        Clinic hours are strictly between 9:00 AM and 5:00 PM. Please select a valid time.
+    </div>
 
     <div class="row">
-        <div class="col-md-8">
-            <h4 class="mt-4">My Pets</h4>
-            <div class="row mt-3">
-                <div class="col-md-6" th:each="pet : ${pets}">
-                    <div class="card shadow-sm mb-4 border-0">
-                        <div class="card-body text-center">
-                            <h5 class="card-title text-primary fw-bold" th:text="${pet.name}">Pet Name</h5>
-                            <p class="card-text text-muted mb-1" th:text="${pet.species} + ' - ' + ${pet.breed}">Species</p>
-                            <p class="card-text small mb-3">
-                                Age: <span th:text="${pet.age}"></span> | Weight: <span th:text="${pet.weight}"></span> kg
-                            </p>
-                            <a th:href="@{/owner/pet-profile(name=${pet.name})}" class="btn btn-outline-primary btn-sm">View Medical Profile</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div th:if="${#lists.isEmpty(pets)}" class="alert alert-info">
-                    You haven't registered any pets yet. Add one using the form to the right!
-                </div>
-            </div>
-
-            <h4 class="mt-5">Book an Appointment</h4>
-            <div class="card p-4 shadow-sm mb-5 border-0">
-                <form th:action="@{/owner/book-appointment}" method="post" class="row g-3 align-items-end">
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold">Select Pet</label>
-                        <select name="petName" class="form-select" required>
-                            <option value="" disabled selected>Choose a pet...</option>
-                            <option th:each="pet : ${pets}" th:value="${pet.name}" th:text="${pet.name}"></option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold">Select Veterinarian</label>
-                        <select name="vetId" class="form-select" required>
-                            <option value="" disabled selected>Choose a vet...</option>
-                            <option th:each="vet : ${vets}" th:value="${vet.id}" th:text="${vet.name}"></option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold">Date & Time</label>
-                        <input type="datetime-local" name="timeSlot" class="form-control" required>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary w-100 fw-bold">Book</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow-sm mt-4 border-0">
+        <!-- Add Pet Form -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm border-primary">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Add a New Pet</h5>
+                    <h5 class="mb-0">Register New Pet</h5>
                 </div>
-                <div class="card-body bg-white p-4">
+                <div class="card-body">
                     <form th:action="@{/owner/add-pet}" method="post">
-                        <div class="mb-3">
-                            <label class="form-label text-muted small text-uppercase fw-bold">Pet Name</label>
-                            <input type="text" name="name" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label text-muted small text-uppercase fw-bold">Species</label>
-                            <input type="text" name="species" class="form-control" placeholder="e.g., Dog, Cat" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label text-muted small text-uppercase fw-bold">Breed</label>
-                            <input type="text" name="breed" class="form-control" placeholder="e.g., Beagle" required>
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-6">
-                                <label class="form-label text-muted small text-uppercase fw-bold">Age</label>
-                                <input type="number" name="age" class="form-control" min="0" required>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label text-muted small text-uppercase fw-bold">Weight (kg)</label>
-                                <input type="number" step="0.1" name="weight" class="form-control" min="0" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-success w-100 fw-bold">Register Pet</button>
+                        <div class="mb-2"><input type="text" name="name" class="form-control" placeholder="Pet Name" required></div>
+                        <div class="mb-2"><input type="text" name="species" class="form-control" placeholder="Species (e.g., Dog)" required></div>
+                        <div class="mb-2"><input type="text" name="breed" class="form-control" placeholder="Breed" required></div>
+                        <div class="mb-2"><input type="number" name="age" class="form-control" placeholder="Age" required></div>
+                        <div class="mb-2"><input type="number" step="0.1" name="weight" class="form-control" placeholder="Weight (kg)" required></div>
+                        <div class="mb-3"><input type="text" name="allergies" class="form-control" placeholder="Allergies (Optional)"></div>
+                        <button type="submit" class="btn btn-primary w-100">Add Pet</button>
                     </form>
                 </div>
             </div>
         </div>
+    </div>
+
+    <hr class="my-4">
+
+    <!-- Appointment Booking -->
+    <h4 class="mb-3">Book an Appointment</h4>
+    <div class="card shadow-sm p-4 mb-5">
+        <form th:action="@{/owner/book-appointment}" method="post" onsubmit="return validateBookingTime(this);">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Select Pet</label>
+                    <select name="petName" class="form-select" required>
+                        <option value="" disabled selected>-- Choose Pet --</option>
+                        <option th:each="pet : ${pets}" th:value="${pet.name}" th:text="${pet.name}"></option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Select Veterinarian</label>
+                    <select name="vetId" class="form-select" required>
+                        <option value="" disabled selected>-- Choose Vet --</option>
+                        <option th:each="vet : ${vets}" th:value="${vet.id}" th:text="${vet.name}"></option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Service Required</label>
+                    <select name="serviceType" class="form-select" required>
+                        <option value="" disabled selected>-- Choose Service --</option>
+                        <option value="General Consultation">General Consultation (₱500.00)</option>
+                        <option value="Vaccination">Vaccination (₱1000.00)</option>
+                        <option value="Surgery">Surgery (₱5000.00)</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Date & Time</label>
+                    <input type="datetime-local" name="timeSlot" class="form-control" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success mt-2">Confirm Booking</button>
+        </form>
     </div>
 </main>
 
