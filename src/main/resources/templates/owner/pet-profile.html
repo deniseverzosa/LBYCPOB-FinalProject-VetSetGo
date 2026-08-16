@@ -2,16 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head('Pet Profile')}"></head>
 <body class="d-flex flex-column min-vh-100 bg-light">
-
 <div th:replace="~{fragments/header :: navbar}"></div>
-
-<main class="container mt-5 flex-grow-1">
+<main class="container mt-5 flex-grow-1 vsg-bg-pattern">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 th:text="${pet.name} + '\'s Profile'">Pet Profile</h2>
+        <h2><span aria-hidden="true">🐾</span> <span th:text="${pet.name} + '\'s Profile'">Pet Profile</span></h2>
         <div>
-            <button type="button" class="btn btn-sm btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editPetModal">
-                Edit Profile
-            </button>
+            <button type="button" class="btn btn-sm btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editPetModal">Edit Profile</button>
             <a th:href="@{/owner/dashboard}" class="btn btn-sm btn-secondary">&larr; Back to Dashboard</a>
         </div>
     </div>
@@ -23,14 +19,10 @@
         <p class="mb-0"><strong>Weight:</strong> <span th:text="${pet.weight} + ' kg'"></span></p>
     </div>
 
-    <h4 class="mt-4">Appointment Status</h4>
-    <table class="table table-bordered bg-white shadow-sm align-middle">
+    <h4 class="mt-4"><span class="vsg-heading-icon" aria-hidden="true">📅</span>Appointment Status</h4>
+    <table class="table table-bordered table-hover bg-white shadow-sm align-middle">
         <thead class="table-primary">
-        <tr>
-            <th>Date & Time</th>
-            <th>Veterinarian</th>
-            <th>Status</th>
-        </tr>
+        <tr><th>Date &amp; Time</th><th>Veterinarian</th><th>Status</th></tr>
         </thead>
         <tbody>
         <tr th:each="appt : ${appointments}">
@@ -48,51 +40,3 @@
         </tr>
         </tbody>
     </table>
-
-    <h4 class="mt-5">Medical History</h4>
-    <div class="list-group mt-2 shadow-sm mb-5">
-        <div th:each="record : ${records}" class="list-group-item flex-column align-items-start mb-2 border rounded">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1 text-primary" th:text="${record.diagnosisNotes}">Diagnosis</h5>
-                <span class="badge bg-secondary" th:text="${record.timestamp != null ? #temporals.format(record.timestamp, 'yyyy-MM-dd HH:mm') : 'N/A'}">Date</span>
-            </div>
-            <p class="mb-1 mt-2"><strong>Medications:</strong> <span th:text="${record.medicineDosages}"></span></p>
-            <p class="mb-1"><strong>Vital Signs:</strong> <span th:text="${record.vitalSigns}"></span></p>
-        </div>
-        <div th:if="${#lists.isEmpty(records)}" class="alert alert-warning">
-            No medical records have been logged yet.
-        </div>
-    </div>
-
-    <div class="modal fade" id="editPetModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form th:action="@{/owner/edit-pet}" method="post">
-                    <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title">Edit Pet Profile</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" name="petId" th:value="${pet.id}" />
-                        <label class="form-label fw-bold">Name</label>
-                        <input type="text" name="name" class="form-control mb-2" th:value="${pet.name}" readonly>
-                        <label class="form-label fw-bold">Age</label>
-                        <input type="number" name="age" class="form-control mb-2" th:value="${pet.age}" required>
-                        <label class="form-label fw-bold">Weight (kg)</label>
-                        <input type="number" step="0.1" name="weight" class="form-control mb-2" th:value="${pet.weight}" required>
-                        <label class="form-label fw-bold">Allergies</label>
-                        <input type="text" name="allergies" class="form-control mb-2" th:value="${pet.allergies}">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-success">Save Changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</main>
-
-<div th:replace="~{fragments/footer :: footer}"></div>
-</body>
-</html>
