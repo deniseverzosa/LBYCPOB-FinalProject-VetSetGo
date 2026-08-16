@@ -57,3 +57,39 @@ a:hover { color: var(--vsg-apricot); }
 .list-group-item:hover { transform: translateX(4px); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); }
 .modal-header.bg-primary { background-color: var(--vsg-teal) !important; }
 footer.bg-dark { background-color: var(--vsg-ink) !important; }
+
+/* ==========================================================================
+   Decorative additions — paw-print motif, auth illustration panel, accents
+   ========================================================================== */
+.vsg-bg-pattern {
+    background-image: url('/images/paw-pattern.png');
+    background-repeat: repeat;
+    background-size: 90px 90px;
+}
+.vsg-auth-wrap { background-color: #fff; border-radius: 1rem; }
+.vsg-auth-visual {
+    min-height: 420px;
+    background-color: var(--vsg-teal);
+    background-image:
+            linear-gradient(160deg, rgba(15, 143, 134, 0.94) 0%, rgba(10, 107, 99, 0.97) 100%),
+            url('/images/paw-pattern-light.png');
+    background-size: cover, 90px 90px;
+    background-repeat: no-repeat, repeat;
+}
+.vsg-auth-illustration { width: 100%; max-width: 300px; height: auto; }
+.vsg-auth-tagline { max-width: 320px; }
+.vsg-heading-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 2.1rem; height: 2.1rem; border-radius: 50%;
+    background-color: rgba(15, 143, 134, 0.12);
+    margin-right: 0.5rem; font-size: 1.05rem; line-height: 1;
+}
+.vsg-heading-icon.vsg-accent-apricot { background-color: rgba(255, 143, 94, 0.16); }
+.vsg-feature { text-align: center; }
+.vsg-feature-icon {
+    width: 3.25rem; height: 3.25rem; border-radius: 50%;
+    background-color: rgba(15, 143, 134, 0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin: 0 auto 0.75rem;
+}
+.vsg-empty-illustration { width: 120px; height: auto; flex-shrink: 0; }
