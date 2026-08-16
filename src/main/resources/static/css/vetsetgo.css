@@ -70,7 +70,7 @@ footer.bg-dark { background-color: var(--vsg-ink) !important; }
    Decorative additions — paw-print motif, auth illustration panel, accents
    ========================================================================== */
 .vsg-bg-pattern {
-    background-image: url('/images/paw-pattern.png');
+    background-image: url('../images/paw-pattern.png');
     background-repeat: repeat;
     background-size: 90px 90px;
 }
@@ -80,7 +80,7 @@ footer.bg-dark { background-color: var(--vsg-ink) !important; }
     background-color: var(--vsg-teal);
     background-image:
             linear-gradient(160deg, rgba(15, 143, 134, 0.94) 0%, rgba(10, 107, 99, 0.97) 100%),
-            url('/images/paw-pattern-light.png');
+            url('../images/paw-pattern-light.png');
     background-size: cover, 90px 90px;
     background-repeat: no-repeat, repeat;
 }
