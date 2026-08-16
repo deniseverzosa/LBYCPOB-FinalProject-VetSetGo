@@ -1,6 +1,7 @@
 package com.vetsetgo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,9 @@ public class MedicalRecord {
     private String medicineDosages;
     private String vitalSigns;
 
+    // Added the missing timestamp field that the HTML templates are looking for
+    private LocalDateTime timestamp;
+
     @Transient
     private List<MedicalService> servicesRendered;
 
@@ -24,6 +28,7 @@ public class MedicalRecord {
 
     public MedicalRecord() {
         this.servicesRendered = new ArrayList<>();
+        this.timestamp = LocalDateTime.now(); // Automatically logs the exact time of creation
     }
 
     public MedicalRecord(String diagnosisNotes, String medicineDosages, String vitalSigns) {
@@ -31,6 +36,7 @@ public class MedicalRecord {
         this.medicineDosages = medicineDosages;
         this.vitalSigns = vitalSigns;
         this.servicesRendered = new ArrayList<>();
+        this.timestamp = LocalDateTime.now(); // Automatically logs the exact time of creation
     }
 
     // Helper method to add services dynamically
@@ -65,4 +71,7 @@ public class MedicalRecord {
 
     public Pet getPet() { return pet; }
     public void setPet(Pet pet) { this.pet = pet; }
+
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
 }
