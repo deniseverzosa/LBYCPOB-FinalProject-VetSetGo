@@ -9,8 +9,15 @@
         <a th:href="@{/logout}" class="btn btn-outline-danger btn-sm">Logout</a>
     </div>
 
+    <!-- Error Alerts -->
     <div th:if="${param.timeError}" class="alert alert-danger mb-4">
         Clinic hours are strictly between 9:00 AM and 5:00 PM. Please select a valid time.
+    </div>
+    <div th:if="${param.overlapError != null and param.overlapError[0] == 'vet'}" class="alert alert-danger mb-4">
+        The selected veterinarian is already booked at this time. Please choose another time or vet.
+    </div>
+    <div th:if="${param.overlapError != null and param.overlapError[0] == 'owner'}" class="alert alert-danger mb-4">
+        You already have an appointment scheduled at this exact time. Please select a different time slot.
     </div>
 
     <div class="row">
@@ -45,14 +52,34 @@
                             <p class="mb-1"><strong>Allergies:</strong> <span th:text="${pet.allergies}"></span></p>
                             <div class="mt-3 d-flex gap-2">
                                 <a th:href="@{/owner/pet-profile(name=${pet.name})}" class="btn btn-sm btn-info text-white w-50">View Profile</a>
-                                <form th:action="@{/owner/delete-pet}" method="post" class="w-50">
-                                    <input type="hidden" name="petId" th:value="${pet.id}">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100" onclick="return confirm('Delete this pet?');">Delete</button>
-                                </form>
+                                <button type="button" class="btn btn-sm btn-outline-danger w-50" data-bs-toggle="modal" th:data-bs-target="'#deletePetModal-' + ${pet.id}">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" th:id="'deletePetModal-' + ${pet.id}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger text-white">
+                                    <h5 class="modal-title">Confirm Deletion</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body text-start">
+                                    <p>Are you sure you want to delete the profile for <strong th:text="${pet.name}"></strong>?</p>
+                                    <p class="text-danger small mb-0"><strong>Warning:</strong> This will also permanently delete all associated medical records and appointments.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <form th:action="@{/owner/delete-pet}" method="post">
+                                        <input type="hidden" name="petId" th:value="${pet.id}">
+                                        <button type="submit" class="btn btn-danger">Yes, Delete Pet</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div th:if="${#lists.isEmpty(pets)}" class="col-12">
                     <div class="alert alert-warning d-flex align-items-center gap-3">
                         <img th:src="@{/images/empty-pets.png}" src="/images/empty-pets.png" alt="" aria-hidden="true" class="vsg-empty-illustration">
