@@ -22,16 +22,21 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
 
+    private String serviceType;
+    private Double servicePrice;
+
     public Appointment() {
     }
 
-    public Appointment(String id, Vet vet, PetOwner owner, Pet pet, LocalDateTime timeSlot) {
+    public Appointment(String id, Vet vet, PetOwner owner, Pet pet, LocalDateTime timeSlot, String serviceType, Double servicePrice) {
         this.id = id;
         this.vet = vet;
         this.owner = owner;
         this.pet = pet;
         this.timeSlot = timeSlot;
         this.status = AppointmentStatus.PENDING; // Defaults to pending
+        this.serviceType = serviceType;
+        this.servicePrice = servicePrice;
     }
 
     public String getId() {
@@ -81,4 +86,20 @@ public class Appointment {
     public void setStatus(AppointmentStatus status) {
         this.status = status;
     }
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    public Double getServicePrice() {
+        return servicePrice;
+    }
+
+    public void setServicePrice(Double servicePrice) {
+        this.servicePrice = servicePrice;
+    }
+
 }
