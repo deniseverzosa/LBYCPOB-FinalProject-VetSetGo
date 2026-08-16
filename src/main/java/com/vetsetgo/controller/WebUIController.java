@@ -2,7 +2,7 @@ package com.vetsetgo.controller;
 
 import com.vetsetgo.model.*;
 import com.vetsetgo.repository.*;
-import com.vetsetgo.utils.DateTimeUtil; // FIX: Imported your utility class!
+import com.vetsetgo.utils.DateTimeUtil;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -77,7 +78,7 @@ public class WebUIController {
             model.addAttribute("user", owner);
             model.addAttribute("pets", owner.getPets());
             model.addAttribute("vets", vetRepository.findAll());
-            return "owner/dashboard";
+            return "owner/dashboard"; // NOTE: Rename your file dashboard_2.html to dashboard.html to match this return
         }
         return "redirect:/login";
     }
@@ -125,7 +126,7 @@ public class WebUIController {
         Optional<Pet> petOpt = petRepository.findById(petId);
         if (petOpt.isPresent()) {
             Pet pet = petOpt.get();
-            if (pet.getOwner().getId().equals(userId)) { // Security check
+            if (pet.getOwner().getId().equals(userId)) {
                 pet.setAge(age);
                 pet.setWeight(weight);
                 pet.setAllergies((allergies != null && !allergies.trim().isEmpty()) ? allergies : "None");
@@ -146,6 +147,12 @@ public class WebUIController {
             Pet pet = petOpt.get();
 
             if (pet.getOwner().getId().equals(owner.getId())) {
+                // Fix: Remove associated appointments first to prevent foreign key constraint errors
+                List<Appointment> petAppointments = appointmentRepository.findAll().stream()
+                        .filter(a -> a.getPet().getId().equals(pet.getId()))
+                        .toList();
+                appointmentRepository.deleteAll(petAppointments);
+
                 owner.getPets().remove(pet);
                 petRepository.delete(pet);
                 petOwnerRepository.save(owner);
@@ -198,9 +205,23 @@ public class WebUIController {
             if (targetPet != null) {
                 LocalDateTime dateTime = LocalDateTime.parse(timeSlotStr);
 
-                // Server-Side restriction checking using your DateTimeUtil!
                 if (!DateTimeUtil.isWithinClinicHours(dateTime)) {
                     return "redirect:/owner/dashboard?timeError";
+                }
+
+                Vet vet = selectedVetOpt.get();
+
+                boolean vetOverlap = appointmentRepository.findAll().stream()
+                        .anyMatch(a -> a.getVet().getId().equals(vet.getId()) && a.getTimeSlot().equals(dateTime));
+                if (vetOverlap) {
+                    return "redirect:/owner/dashboard?overlapError=vet";
+                }
+
+                // Fix: Check Owner's overlapping schedules across all their pets
+                boolean ownerOverlap = appointmentRepository.findAll().stream()
+                        .anyMatch(a -> a.getOwner().getId().equals(owner.getId()) && a.getTimeSlot().equals(dateTime));
+                if (ownerOverlap) {
+                    return "redirect:/owner/dashboard?overlapError=owner";
                 }
 
                 String newApptId = "A-" + UUID.randomUUID().toString().substring(0, 4).toUpperCase();
@@ -209,8 +230,11 @@ public class WebUIController {
                 if (serviceType.equalsIgnoreCase("Vaccination")) price = 1000.0;
                 if (serviceType.equalsIgnoreCase("Surgery")) price = 5000.0;
 
-                Appointment newAppt = new Appointment(newApptId, selectedVetOpt.get(), owner, targetPet, dateTime, serviceType, price);
+                Appointment newAppt = new Appointment(newApptId, vet, owner, targetPet, dateTime, serviceType, price);
                 appointmentRepository.save(newAppt);
+
+                vet.addAppointment(newAppt);
+                vetRepository.save(vet);
             }
         }
         return "redirect:/owner/pet-profile?name=" + petName;
@@ -224,11 +248,6 @@ public class WebUIController {
         Optional<Vet> vetOpt = vetRepository.findById(userId);
         if (vetOpt.isPresent()) {
             model.addAttribute("user", vetOpt.get());
-            model.addAttribute("appointments", vetOpt.get().getUpcomingAppointments());
-
-            model.addAttribute("appointments", appointmentRepository.findAll().stream()
-                    .filter(a -> a.getVet().getId().equals(vetOpt.get().getId()))
-                    .toList());
 
             return "vet/dashboard";
         }
