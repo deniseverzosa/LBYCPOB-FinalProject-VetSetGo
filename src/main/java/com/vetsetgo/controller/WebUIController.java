@@ -112,6 +112,29 @@ public class WebUIController {
         return "redirect:/owner/dashboard";
     }
 
+    @PostMapping("/owner/edit-pet")
+    public String editPet(@RequestParam("petId") Long petId,
+                          @RequestParam("name") String name,
+                          @RequestParam("age") int age,
+                          @RequestParam("weight") double weight,
+                          @RequestParam(value = "allergies", required = false) String allergies,
+                          HttpSession session) {
+        String userId = (String) session.getAttribute("loggedInUserId");
+        if (userId == null) return "redirect:/login";
+
+        Optional<Pet> petOpt = petRepository.findById(petId);
+        if (petOpt.isPresent()) {
+            Pet pet = petOpt.get();
+            if (pet.getOwner().getId().equals(userId)) { // Security check
+                pet.setAge(age);
+                pet.setWeight(weight);
+                pet.setAllergies((allergies != null && !allergies.trim().isEmpty()) ? allergies : "None");
+                petRepository.save(pet);
+            }
+        }
+        return "redirect:/owner/pet-profile?name=" + name;
+    }
+
     @PostMapping("/owner/delete-pet")
     public String deletePet(@RequestParam("petId") Long petId, HttpSession session) {
         String userId = (String) session.getAttribute("loggedInUserId");
