@@ -62,3 +62,57 @@
             </div>
         </div>
     </div>
+
+    <hr class="my-4">
+
+    <h4 class="mb-3"><span class="vsg-heading-icon vsg-accent-apricot" aria-hidden="true">📅</span>Book an Appointment</h4>
+    <div class="card shadow-sm p-4 mb-5">
+        <form th:action="@{/owner/book-appointment}" method="post" onsubmit="return validateBookingTime(this);">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Select Pet</label>
+                    <select name="petName" class="form-select" required>
+                        <option value="" disabled selected>-- Choose Pet --</option>
+                        <option th:each="pet : ${pets}" th:value="${pet.name}" th:text="${pet.name}"></option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Select Veterinarian</label>
+                    <select name="vetId" class="form-select" required>
+                        <option value="" disabled selected>-- Choose Vet --</option>
+                        <option th:each="vet : ${vets}" th:value="${vet.id}" th:text="${vet.name}"></option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Service Required</label>
+                    <select name="serviceType" class="form-select" required>
+                        <option value="" disabled selected>-- Choose Service --</option>
+                        <option value="General Consultation">General Consultation (₱500.00)</option>
+                        <option value="Vaccination">Vaccination (₱1000.00)</option>
+                        <option value="Surgery">Surgery (₱5000.00)</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label fw-bold">Date &amp; Time</label>
+                    <input type="datetime-local" name="timeSlot" class="form-control" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success mt-2">Confirm Booking</button>
+        </form>
+    </div>
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script>
+    function validateBookingTime(form) {
+        const timeInput = form.timeSlot.value;
+        if (!timeInput) return false;
+        const hours = new Date(timeInput).getHours();
+        if (hours < 9 || hours >= 17) {
+            alert("Appointments can only be booked during clinic hours: 9:00 AM to 5:00 PM.");
+            return false;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>
