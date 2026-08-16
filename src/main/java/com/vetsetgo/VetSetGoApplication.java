@@ -1,6 +1,7 @@
 package com.vetsetgo;
 
 import com.vetsetgo.model.*;
+import com.vetsetgo.repository.VetRepository;
 import com.vetsetgo.utils.DateTimeUtil;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,7 +18,7 @@ public class VetSetGoApplication {
     }
 
     @Bean
-    public CommandLineRunner runConsoleDemo() {
+    public CommandLineRunner runConsoleDemo(VetRepository vetRepository) {
         return args -> {
             System.out.println("==================================================");
             System.out.println("          PETPULSE SYSTEM INITIALIZING            ");
@@ -25,10 +26,18 @@ public class VetSetGoApplication {
 
             // 1. Instantiating Subclasses (Inheritance)
             PetOwner owner = new PetOwner("O101", "Alice Johnson", "pass123", "alice@email.com", "555-1234");
-            Vet vet = new Vet("V202", "Dr. Bob Miller", "vetpass", "drbob@email.com", "555-9876", "VET-LICENSE-99");
+
+            // Creating the Veterinarians
+            Vet vet1 = new Vet("V202", "Dr. Bob Miller", "vetpass", "drbob@email.com", "555-9876", "VET-LICENSE-99");
+            Vet vet2 = new Vet("V203", "Dr. Sarah Smith", "vetpass", "drsmith@email.com", "555-1111", "VET-LICENSE-100");
+            Vet vet3 = new Vet("V204", "Dr. Emily Chen", "vetpass", "drchen@email.com", "555-2222", "VET-LICENSE-101");
+
+            vetRepository.save(vet1);
+            vetRepository.save(vet2);
+            vetRepository.save(vet3);
 
             // 2. Polymorphism Demonstration
-            User loggedInUser = vet;
+            User loggedInUser = vet1;
             System.out.println("[AUTH] " + loggedInUser.displayUserPortal());
 
             loggedInUser = owner;
@@ -48,7 +57,7 @@ public class VetSetGoApplication {
             // 4. Utilizing Utils
             LocalDateTime appointmentTime = LocalDateTime.of(2026, 8, 15, 11, 0);
             if (DateTimeUtil.isWithinClinicHours(appointmentTime)) {
-                Appointment appointment = new Appointment("A-1", vet, owner, pet, appointmentTime);
+                Appointment appointment = new Appointment("A-1", vet1, owner, pet, appointmentTime, "General Consultation", 500.0);
                 // The getStatus() will now print "PENDING" automatically due to the new Enum default
                 System.out.println("[SCHEDULER] " + appointment.getStatus() + " appointment for " + pet.getName());
             }
