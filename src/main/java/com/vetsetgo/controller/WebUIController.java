@@ -78,9 +78,30 @@ public class WebUIController {
             model.addAttribute("user", owner);
             model.addAttribute("pets", owner.getPets());
             model.addAttribute("vets", vetRepository.findAll());
-            return "owner/dashboard"; // NOTE: Rename your file dashboard_2.html to dashboard.html to match this return
+            return "owner/dashboard";
         }
         return "redirect:/login";
+    }
+
+    @PostMapping("/owner/edit-account")
+    public String editAccount(@RequestParam("name") String name,
+                              @RequestParam("email") String email,
+                              @RequestParam("phoneNumber") String phoneNumber,
+                              @RequestParam("password") String password,
+                              HttpSession session) {
+        String userId = (String) session.getAttribute("loggedInUserId");
+        if (userId == null) return "redirect:/login";
+
+        Optional<PetOwner> ownerOpt = petOwnerRepository.findById(userId);
+        if (ownerOpt.isPresent()) {
+            PetOwner owner = ownerOpt.get();
+            owner.setName(name);
+            owner.setEmail(email);
+            owner.setPhoneNumber(phoneNumber);
+            owner.setPassword(password);
+            petOwnerRepository.save(owner);
+        }
+        return "redirect:/owner/dashboard";
     }
 
     @PostMapping("/owner/add-pet")
@@ -147,7 +168,6 @@ public class WebUIController {
             Pet pet = petOpt.get();
 
             if (pet.getOwner().getId().equals(owner.getId())) {
-                // Fix: Remove associated appointments first to prevent foreign key constraint errors
                 List<Appointment> petAppointments = appointmentRepository.findAll().stream()
                         .filter(a -> a.getPet().getId().equals(pet.getId()))
                         .toList();
@@ -217,7 +237,6 @@ public class WebUIController {
                     return "redirect:/owner/dashboard?overlapError=vet";
                 }
 
-                // Fix: Check Owner's overlapping schedules across all their pets
                 boolean ownerOverlap = appointmentRepository.findAll().stream()
                         .anyMatch(a -> a.getOwner().getId().equals(owner.getId()) && a.getTimeSlot().equals(dateTime));
                 if (ownerOverlap) {
