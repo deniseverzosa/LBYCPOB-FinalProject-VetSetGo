@@ -104,6 +104,27 @@ public class WebUIController {
         return "redirect:/owner/dashboard";
     }
 
+    @PostMapping("/owner/delete-account")
+    public String deleteAccount(HttpSession session) {
+        String userId = (String) session.getAttribute("loggedInUserId");
+        if (userId == null) return "redirect:/login";
+
+        Optional<PetOwner> ownerOpt = petOwnerRepository.findById(userId);
+        if (ownerOpt.isPresent()) {
+            PetOwner owner = ownerOpt.get();
+
+            // Prevent foreign key constraint errors by deleting appointments first
+            List<Appointment> ownerAppointments = appointmentRepository.findAll().stream()
+                    .filter(a -> a.getOwner().getId().equals(owner.getId()))
+                    .toList();
+            appointmentRepository.deleteAll(ownerAppointments);
+
+            petOwnerRepository.delete(owner);
+            session.invalidate();
+        }
+        return "redirect:/";
+    }
+
     @PostMapping("/owner/add-pet")
     public String addPet(@RequestParam("name") String name,
                          @RequestParam("species") String species,
