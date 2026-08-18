@@ -113,7 +113,6 @@ public class WebUIController {
         if (ownerOpt.isPresent()) {
             PetOwner owner = ownerOpt.get();
 
-            // Prevent foreign key constraint errors by deleting appointments first
             List<Appointment> ownerAppointments = appointmentRepository.findAll().stream()
                     .filter(a -> a.getOwner().getId().equals(owner.getId()))
                     .toList();
@@ -136,21 +135,29 @@ public class WebUIController {
         String userId = (String) session.getAttribute("loggedInUserId");
         Optional<PetOwner> ownerOpt = petOwnerRepository.findById(userId);
 
+        if (age < 0 || weight < 0) {
+            return "redirect:/owner/dashboard?invalidInput";
+        }
+
         if (ownerOpt.isPresent()) {
             PetOwner owner = ownerOpt.get();
-            Pet newPet = new Pet(name, species, breed);
-            newPet.setAge(age);
-            newPet.setWeight(weight);
-            if (allergies != null && !allergies.trim().isEmpty()) {
-                newPet.setAllergies(allergies);
-            } else {
-                newPet.setAllergies("None");
-            }
+            try {
+                Pet newPet = new Pet(name, species, breed);
+                newPet.setAge(age);
+                newPet.setWeight(weight);
+                if (allergies != null && !allergies.trim().isEmpty()) {
+                    newPet.setAllergies(allergies);
+                } else {
+                    newPet.setAllergies("None");
+                }
 
-            newPet.setOwner(owner);
-            petRepository.save(newPet);
-            owner.addPet(newPet);
-            petOwnerRepository.save(owner);
+                newPet.setOwner(owner);
+                petRepository.save(newPet);
+                owner.addPet(newPet);
+                petOwnerRepository.save(owner);
+            } catch (IllegalArgumentException e) {
+                return "redirect:/owner/dashboard?invalidInput";
+            }
         }
         return "redirect:/owner/dashboard";
     }
@@ -165,14 +172,22 @@ public class WebUIController {
         String userId = (String) session.getAttribute("loggedInUserId");
         if (userId == null) return "redirect:/login";
 
+        if (age < 0 || weight < 0) {
+            return "redirect:/owner/pet-profile?name=" + name + "&invalidInput";
+        }
+
         Optional<Pet> petOpt = petRepository.findById(petId);
         if (petOpt.isPresent()) {
             Pet pet = petOpt.get();
             if (pet.getOwner().getId().equals(userId)) {
-                pet.setAge(age);
-                pet.setWeight(weight);
-                pet.setAllergies((allergies != null && !allergies.trim().isEmpty()) ? allergies : "None");
-                petRepository.save(pet);
+                try {
+                    pet.setAge(age);
+                    pet.setWeight(weight);
+                    pet.setAllergies((allergies != null && !allergies.trim().isEmpty()) ? allergies : "None");
+                    petRepository.save(pet);
+                } catch (IllegalArgumentException e) {
+                    return "redirect:/owner/pet-profile?name=" + name + "&invalidInput";
+                }
             }
         }
         return "redirect:/owner/pet-profile?name=" + name;
