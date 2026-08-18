@@ -104,8 +104,7 @@ of sensitive data by providing persistent local storage of pet and appointment r
   other adverse reactions to drugs to formulate a new treatment plan.
 
 
-- As a veterinary receptionist, I want to see a calendar that does not show conflicts, and I want to see a daily calendar so that I can be efficient and 
-  route patients so that I don't double book a doctor's limited time slots.
+- As a pet owner, I want to see a calendar that does not show conflicts, so that I don't double book a previous appointment and a doctor's limited time slot.
 
 
 ## CORE FEATURES (Recommended):
