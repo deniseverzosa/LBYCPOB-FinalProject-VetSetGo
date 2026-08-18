@@ -167,6 +167,27 @@
         </div>
     </div>
 
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Delete Account</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-start">
+                    <p>Are you sure you want to permanently delete your account?</p>
+                    <p class="text-danger small mb-0"><strong>Warning:</strong> This will also completely wipe out your registered pets, medical records, and upcoming appointments. This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form th:action="@{/owner/delete-account}" method="post">
+                        <button type="submit" class="btn btn-danger">Yes, Delete Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </main>
 <div th:replace="~{fragments/footer :: footer}"></div>
 <script>
